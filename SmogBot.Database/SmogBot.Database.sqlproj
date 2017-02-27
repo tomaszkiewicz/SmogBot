@@ -96,6 +96,8 @@
     <Build Include="Updater\Stored Procedures\EnsureStation.sql" />
     <Build Include="Updater\Stored Procedures\UpdateMeasurement.sql" />
     <Build Include="Security\Updater.sql" />
+    <Build Include="Security\AppVeyor.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />
