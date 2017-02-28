@@ -8,7 +8,9 @@
       "direction": "in",
       "webHookType": "genericJson",
       "authLevel": "anonymous",
-      "methods": ["get"],
+      "methods": [
+        "post"
+      ],
       "name": "req"
     },
     {

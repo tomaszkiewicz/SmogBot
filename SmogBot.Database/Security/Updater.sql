@@ -6,7 +6,10 @@ GO
 CREATE LOGIN [Updater] WITH PASSWORD = 'invalidPassword';
 GO
 
-CREATE USER [Updater] FOR LOGIN [Updater];
+CREATE USER [Updater] FOR LOGIN [Updater]
+    WITH DEFAULT_SCHEMA = [Updater];
+
+
 GO
 
 GRANT SELECT

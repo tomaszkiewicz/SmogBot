@@ -5,7 +5,10 @@ GO
 CREATE LOGIN [Bot] WITH PASSWORD = 'invalidPassword';
 GO
 
-CREATE USER [Bot] FOR LOGIN [Bot];
+CREATE USER [Bot] FOR LOGIN [Bot]
+    WITH DEFAULT_SCHEMA = [Bot];
+
+
 GO
 
 GRANT SELECT
