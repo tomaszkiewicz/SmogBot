@@ -1,4 +1,6 @@
 {
+  "scriptFile": "bin\\SmogBot.Bot.dll",
+  "entryPoint": "SmogBot.Bot.Runner.Run",
   "bindings": [
     {
       "type": "httpTrigger",
