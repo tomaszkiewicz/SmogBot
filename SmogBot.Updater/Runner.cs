@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using GiosAirPollutionClient;
@@ -10,9 +11,11 @@ namespace SmogBot.Updater
 {
     public class Runner
     {
-        public static Task RunHttp(HttpRequestMessage req, TraceWriter log)
+        public static async Task<HttpResponseMessage> RunHttp(HttpRequestMessage req, TraceWriter log)
         {
-            return Run(log);
+            await Run(log);
+
+            return req.CreateResponse(HttpStatusCode.Accepted);
         }
 
         public static Task RunTimer(TimerInfo timer, TraceWriter log)
