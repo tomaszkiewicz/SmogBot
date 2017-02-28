@@ -1,13 +1,18 @@
 ﻿{
   "scriptFile": "bin\\SmogBot.Updater.dll",
-  "entryPoint": "SmogBot.Updater.Runner.Run",
+  "entryPoint": "SmogBot.Updater.Runner.RunHttp",
   "disabled": false,
   "bindings": [
     {
-      "name": "timer",
-      "type": "timerTrigger",
+      "type": "httpTrigger",
       "direction": "in",
-      "schedule": "0 */15 * * * *"
+      "webHookType": "genericJson",
+      "name": "req"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
     }
   ]
 }

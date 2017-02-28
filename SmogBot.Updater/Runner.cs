@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using GiosAirPollutionClient;
 using Microsoft.Azure.WebJobs;
@@ -9,7 +10,17 @@ namespace SmogBot.Updater
 {
     public class Runner
     {
-        public static async Task Run(TimerInfo timer, TraceWriter log)
+        public static Task RunHttp(HttpRequestMessage req, TraceWriter log)
+        {
+            return Run(log);
+        }
+
+        public static Task RunTimer(TimerInfo timer, TraceWriter log)
+        {
+            return Run(log);
+        }
+
+        public static async Task Run(TraceWriter log)
         {
             var connStr = ConfigurationManager.ConnectionStrings["Updater"].ConnectionString;
 
