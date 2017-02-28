@@ -2,6 +2,13 @@
     AUTHORIZATION [dbo];
 
 GO
+
+CREATE LOGIN [Updater] WITH PASSWORD = 'invalidPassword';
+GO
+
+CREATE USER [Updater] FOR LOGIN [Updater];
+GO
+
 GRANT SELECT
     ON SCHEMA::[Updater] TO [Updater];
 

@@ -1,4 +1,0 @@
-﻿CREATE LOGIN [Bot] WITH PASSWORD = 'invalidPassword';
-GO
-
-CREATE USER [Bot] FOR LOGIN [Bot];

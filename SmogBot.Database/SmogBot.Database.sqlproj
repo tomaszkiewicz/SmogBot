@@ -98,8 +98,6 @@
     <Build Include="Security\Updater.sql" />
     <Build Include="Security\AppVeyorUserLogin.sql" />
     <Build Include="Security\RoleMemberships.sql" />
-    <Build Include="Security\UpdaterUserLogin.sql" />
-    <Build Include="Security\BotUserLogin.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />
