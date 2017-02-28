@@ -1,19 +1,10 @@
 ﻿CREATE SCHEMA [Bot]
     AUTHORIZATION [dbo];
+GO
 
+GRANT SELECT
+    ON SCHEMA::[Bot] TO [Bot];
+GO
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+GRANT EXECUTE
+    ON SCHEMA::[Bot] TO [Bot];
