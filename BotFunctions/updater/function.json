@@ -1,11 +1,13 @@
 ﻿{
+  "scriptFile": "bin\\SmogBot.Updater.dll",
+  "entryPoint": "SmogBot.Updater.Runner.Run",
   "disabled": false,
   "bindings": [
     {
       "name": "timer",
       "type": "timerTrigger",
       "direction": "in",
-      "schedule": "0/15 * * * * *"
+      "schedule": "0 */15 * * * *"
     }
   ]
 }
