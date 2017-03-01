@@ -6,10 +6,9 @@
     {
       "type": "httpTrigger",
       "direction": "in",
-      "webHookType": "genericJson",
       "authLevel": "anonymous",
       "methods": [
-        "post"
+        "get"
       ],
       "name": "req"
     },
