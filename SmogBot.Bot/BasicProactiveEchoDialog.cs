@@ -1,30 +1,37 @@
 using System;
 using System.Threading.Tasks;
-
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Newtonsoft.Json;
 
 namespace SmogBot.Bot
 {
-    // For more information about this template visit http://aka.ms/azurebots-csharp-proactive
     [Serializable]
     public class BasicProactiveEchoDialog : IDialog<object>
     {
+        [NonSerialized]
+        private readonly SampleDependency _sampleDependency;
+
         protected int Count = 1;
 
+        public BasicProactiveEchoDialog(SampleDependency sampleDependency)
+        {
+            _sampleDependency = sampleDependency;
+        }
+        
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
+
             return Task.CompletedTask;
         }
 
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
+
             if (message.Text == "reset")
             {
                 PromptDialog.Confirm(
@@ -44,9 +51,10 @@ namespace SmogBot.Bot
                 };
 
                 // write the queue Message to the queue
-                await AddMessageToQueueAsync(JsonConvert.SerializeObject(queueMessage));
+                //await AddMessageToQueueAsync(JsonConvert.SerializeObject(queueMessage));
 
-                await context.PostAsync($"{this.Count++}: You said {queueMessage.Text}. Message added to the queue.");
+                await context.PostAsync($"{Count++}: You said {queueMessage.Text}. Message added to the queue. " + _sampleDependency.GetText());
+
                 context.Wait(MessageReceivedAsync);
             }
         }

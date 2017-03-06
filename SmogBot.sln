@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{33AD0EE8-D99B-4E14-8CD9-3F56ABEF97A2}") = "BotFunctions", "BotFunctions\BotFunctions.funproj", "{16CB6D0D-5CA8-4DFA-8E1B-F96E73ED62A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14ACBF8E-5EDA-4DB4-907E-F1DF987405C9} = {14ACBF8E-5EDA-4DB4-907E-F1DF987405C9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmogBot.Bot", "SmogBot.Bot\SmogBot.Bot.csproj", "{14ACBF8E-5EDA-4DB4-907E-F1DF987405C9}"
 EndProject
@@ -17,6 +20,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmogBot.Updater", "SmogBot.Updater\SmogBot.Updater.csproj", "{EECBC8E6-9F0C-42DA-AC0A-44B50249413D}"
 EndProject
 Project("{33AD0EE8-D99B-4E14-8CD9-3F56ABEF97A2}") = "BackgroundFunctions", "BackgroundFunctions\BackgroundFunctions.funproj", "{0275B835-0FC2-4B0B-B7ED-38EE551F019B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EECBC8E6-9F0C-42DA-AC0A-44B50249413D} = {EECBC8E6-9F0C-42DA-AC0A-44B50249413D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

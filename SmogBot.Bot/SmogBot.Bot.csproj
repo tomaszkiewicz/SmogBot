@@ -149,8 +149,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityDispatcher.cs" />
+    <Compile Include="AutofacBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runner.cs" />
+    <Compile Include="SampleDependency.cs" />
+    <Compile Include="SmogBotDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
