@@ -1,28 +1,35 @@
 ﻿using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using GiosAirPollutionClient;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions;
 using Microsoft.Azure.WebJobs.Host;
 
 namespace SmogBot.Updater
 {
     public class Runner
     {
+#if !DEBUG
         public static async Task<HttpResponseMessage> RunHttp(HttpRequestMessage req, TraceWriter log)
         {
             await Run(log);
 
             return req.CreateResponse(HttpStatusCode.Accepted);
         }
-
-        public static Task RunTimer(TimerInfo timer, TraceWriter log)
+#endif
+#if DEBUG
+        public static async Task<HttpResponseMessage> RunHttp(HttpRequestMessage req, TextWriter log)
         {
-            return Run(log);
-        }
+            await Run(new ConsoleTextWriter(log, TraceLevel.Verbose));
 
+            return req.CreateResponse(HttpStatusCode.Accepted);
+        }
+#endif
+        
         public static async Task Run(TraceWriter log)
         {
             var connStr = ConfigurationManager.ConnectionStrings["Updater"].ConnectionString;

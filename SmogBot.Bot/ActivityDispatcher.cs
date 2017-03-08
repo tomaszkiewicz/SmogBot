@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
@@ -13,19 +14,19 @@ namespace SmogBot.Bot
     {
         public static async Task<object> Dispatch<T>(HttpRequestMessage req, IContainer container) where T : ActivityDispatcher
         {
-            using (var scope = AutofacBootstrapper.Container.BeginLifetimeScope())
+            using (BotService.Initialize())
             {
-                using (BotService.Initialize())
+                var jsonContent = await req.Content.ReadAsStringAsync();
+                var activity = JsonConvert.DeserializeObject<Activity>(jsonContent);
+
+                if (!await BotService.Authenticator.TryAuthenticateAsync(req, new[] { activity }, CancellationToken.None))
+                    return BotAuthenticator.GenerateUnauthorizedResponse(req);
+
+                if (activity == null)
+                    return req.CreateResponse(HttpStatusCode.Accepted);
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, activity))
                 {
-                    var jsonContent = await req.Content.ReadAsStringAsync();
-                    var activity = JsonConvert.DeserializeObject<Activity>(jsonContent);
-
-                    if (!await BotService.Authenticator.TryAuthenticateAsync(req, new[] { activity }, CancellationToken.None))
-                        return BotAuthenticator.GenerateUnauthorizedResponse(req);
-
-                    if (activity == null)
-                        return req.CreateResponse(HttpStatusCode.Accepted);
-
                     var dispatcherTarget = scope.Resolve<T>();
 
                     switch (activity.GetActivityType())
@@ -45,8 +46,8 @@ namespace SmogBot.Bot
                         case ActivityTypes.ContactRelationUpdate:
                             await dispatcherTarget.OnContactRelationUpdate(activity);
                             break;
-                            
-                        
+
+
                         case ActivityTypes.DeleteUserData:
                             await dispatcherTarget.OnDeleteUserData(activity);
                             break;

@@ -6,12 +6,12 @@ using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 
-namespace SmogBot.Bot
+namespace SmogBot.Bot.Dialogs
 {
     [Serializable]
     public class BasicProactiveEchoDialog : IDialog<object>
     {
-        [NonSerialized]
+        //[NonSerialized]
         private readonly SampleDependency _sampleDependency;
 
         protected int Count = 1;

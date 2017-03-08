@@ -5,10 +5,11 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SmogBot.Bot.Dialogs;
 
 namespace SmogBot.Bot
 {
-    class SmogBotDispatcher : ActivityDispatcher
+    internal class SmogBotDispatcher : ActivityDispatcher
     {
         private readonly Func<BasicProactiveEchoDialog> _rootDialogFactory;
 
@@ -19,7 +20,7 @@ namespace SmogBot.Bot
 
         public override async Task OnMessage(Activity activity)
         {
-            await Conversation.SendAsync(activity, _rootDialogFactory);
+            await Conversation.SendAsync(activity, () => new BasicProactiveEchoDialog(new SampleDependency()));
         }
 
         public override async Task OnConversationUpdate(IConversationUpdateActivity activity)
