@@ -5,6 +5,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
+using Newtonsoft.Json;
 
 namespace SmogBot.Bot.Dialogs
 {
@@ -51,7 +52,7 @@ namespace SmogBot.Bot.Dialogs
                 };
 
                 // write the queue Message to the queue
-                //await AddMessageToQueueAsync(JsonConvert.SerializeObject(queueMessage));
+                await AddMessageToQueueAsync(JsonConvert.SerializeObject(queueMessage));
 
                 await context.PostAsync($"{Count++}: You said {queueMessage.Text}. Message added to the queue. " + _sampleDependency.GetText());
 

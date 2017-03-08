@@ -20,7 +20,7 @@ namespace SmogBot.Bot
 
         public override async Task OnMessage(Activity activity)
         {
-            await Conversation.SendAsync(activity, () => new BasicProactiveEchoDialog(new SampleDependency()));
+            await Conversation.SendAsync(activity, _rootDialogFactory);
         }
 
         public override async Task OnConversationUpdate(IConversationUpdateActivity activity)
