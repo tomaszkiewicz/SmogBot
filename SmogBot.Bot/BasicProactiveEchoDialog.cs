@@ -1,27 +1,34 @@
 using System;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Newtonsoft.Json;
+using SmogBot.Bot.Extensions;
 
 namespace SmogBot.Bot
 {
     [Serializable]
     public class BasicProactiveEchoDialog : IDialog<object>
     {
-        //[NonSerialized]
+        [NonSerialized]
         private readonly SampleDependency _sampleDependency;
 
         protected int Count = 1;
+
+        [OnDeserialized]
+        public void OnDeserialized(StreamingContext context)
+        {
+            this.RestoreAllDependencies();
+        }
 
         public BasicProactiveEchoDialog(SampleDependency sampleDependency)
         {
             _sampleDependency = sampleDependency;
         }
-        
+
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -52,7 +59,7 @@ namespace SmogBot.Bot
                 };
 
                 // write the queue Message to the queue
-                await AddMessageToQueueAsync(JsonConvert.SerializeObject(queueMessage));
+                //await AddMessageToQueueAsync(JsonConvert.SerializeObject(queueMessage));
 
                 await context.PostAsync($"{Count++}: You said {queueMessage.Text}. Message added to the queue. " + _sampleDependency.GetText());
 
