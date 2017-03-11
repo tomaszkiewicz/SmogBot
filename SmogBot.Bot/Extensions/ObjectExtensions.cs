@@ -9,17 +9,14 @@ namespace SmogBot.Bot.Extensions
     {
         public static void RestoreAllDependencies<T>(this T obj)
         {
-            var fields = typeof(T).GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var fields = obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-            using (var scope = GlobalConfiguration.Configuration.DependencyResolver.BeginScope())
+            foreach (var field in fields)
             {
-                foreach (var field in fields)
-                {
-                    var attr = field.GetCustomAttributes<NonSerializedAttribute>();
+                var attr = field.GetCustomAttributes<NonSerializedAttribute>();
 
-                    if (attr.Any())
-                        field.SetValue(obj, scope.GetService(field.FieldType));
-                }
+                if (attr.Any())
+                    field.SetValue(obj, GlobalConfiguration.Configuration.DependencyResolver.GetService(field.FieldType));
             }
         }
     }
