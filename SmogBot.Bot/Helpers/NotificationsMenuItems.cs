@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -26,9 +26,9 @@ namespace SmogBot.Bot.Helpers
             };
 
             foreach (var time in _notificationTimes)
-                Add($"Usuñ powiadomienie o {time}", async (ctx, resume) => await DeleteNotification(ctx, resume, time));
+                Add($"UsuÅ„ powiadomienie o {time}", async (ctx, resume) => await DeleteNotification(ctx, resume, time));
 
-            Add("Menu g³ówne", Exit);
+            Add("Menu gÅ‚Ã³wne", Exit);
 
         }
 
@@ -43,14 +43,14 @@ namespace SmogBot.Bot.Helpers
         {
             _notificationTimes.Remove(time);
 
-            await context.PostAsync($"Usuniêto powiadomienie o {time}");
+            await context.PostAsync($"UsuniÄ™to powiadomienie o {time}");
 
             context.Wait(resume);
         }
 
         private Task AddNotification(IDialogContext context, ResumeAfter<object> resume)
         {
-            context.Call(new PromptTimeDialog("Podaj godzinê (np. 8:30) o której chcesz byæ informowany o ew. przekroczeniach norm."), (new ResumeHelper(resume, OnAddNofiticationTimeProvided)).Resume);
+            context.Call(new PromptTimeDialog("Podaj godzinÄ™ (np. 8:30) o ktÃ³rej chcesz byÄ‡ informowany o ew. przekroczeniach norm."), (new ResumeHelper(resume, OnAddNofiticationTimeProvided)).Resume);
 
             return Task.CompletedTask;
         }
