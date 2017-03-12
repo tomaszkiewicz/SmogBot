@@ -21,7 +21,7 @@ namespace SmogBot.Bot.RepliesSets
             {
                 "Brak przekroczeń!"
             });
-
+        
             provider.AddReplies(LimitsNotExceededText, new[]
             {
                 "Pora wyjść na spacer :)",

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -34,8 +34,8 @@ namespace SmogBot.Bot
 
             if (updateActivity.AreMembersAdded())
             {
-                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply($"Czeœæ, {activity.MembersAdded[0].Name}!"));
-                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply("Jestem botem, który pomo¿e Ci monitorowaæ poziom zanieczyszczenia powietrza."));
+                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply($"CzeÅ›Ä‡, {activity.MembersAdded[0].Name}!"));
+                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply("Jestem botem, ktÃ³ry pomoÅ¼e Ci monitorowaÄ‡ poziom zanieczyszczenia powietrza."));
 
                 await _accessor.EnsureUser(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
 

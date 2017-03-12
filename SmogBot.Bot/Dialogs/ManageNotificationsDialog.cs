@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -14,10 +14,10 @@ namespace SmogBot.Bot.Dialogs
     {
         [NonSerialized]
         private readonly BotAccessor _accessor;
-
+        
         private const string AddNotification = "Dodaj powiadomienie";
-        private const string EndConfiguration = "Zakoñcz konfigurowanie";
-        private const string DeleteConfigurationTemplate = "Usuñ powiadomienie o {0}";
+        private const string EndConfiguration = "ZakoÅ„cz konfigurowanie";
+        private const string DeleteConfigurationTemplate = "UsuÅ„ powiadomienie o {0}";
 
         public ManageNotificationsDialog(BotAccessor accessor)
         {
@@ -54,7 +54,7 @@ namespace SmogBot.Bot.Dialogs
                     return;
 
                 case AddNotification:
-                    context.Call(new PromptTimeDialog("Podaj godzinê (np. 8:30) o której chcesz byæ informowany o ew. przekroczeniach norm."), OnAddNofiticationTimeProvided);
+                    context.Call(new PromptTimeDialog("Podaj godzinÄ™ (np. 8:30) o ktÃ³rej chcesz byÄ‡ informowany o ew. przekroczeniach norm."), OnAddNofiticationTimeProvided);
                     break;
 
                 default:
@@ -70,7 +70,7 @@ namespace SmogBot.Bot.Dialogs
 
                         await _accessor.DeleteNotificationTime(context.Activity.Conversation.Id, notification);
 
-                        await context.PostAsync($"Usuniêto powiadomienie o {notification}");
+                        await context.PostAsync($"UsuniÄ™to powiadomienie o {notification}");
 
                         break;
                     }
