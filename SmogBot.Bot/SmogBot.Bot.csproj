@@ -162,8 +162,8 @@
       <HintPath>..\packages\Tomaszkiewicz.BotFramework.WebApi.1.0.7\lib\net461\Tomaszkiewicz.BotFramework.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tomaszkiewicz.DapperExtensions, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tomaszkiewicz.DapperExtensions.1.0.2\lib\net461\Tomaszkiewicz.DapperExtensions.dll</HintPath>
+    <Reference Include="Tomaszkiewicz.DapperExtensions, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tomaszkiewicz.DapperExtensions.1.0.3\lib\net461\Tomaszkiewicz.DapperExtensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

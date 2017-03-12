@@ -39,8 +39,7 @@ namespace SmogBot.Bot.Controllers
                     case ActivityTypes.ContactRelationUpdate:
                         await _bot.OnContactRelationUpdate(activity);
                         break;
-
-
+                        
                     case ActivityTypes.DeleteUserData:
                         await _bot.OnDeleteUserData(activity);
                         break;

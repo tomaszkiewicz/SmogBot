@@ -22,7 +22,7 @@ namespace SmogBot.Bot
 
         public override async Task OnMessage(Activity activity)
         {
-            await _accessor.UpdateLastActivityTime(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
+            await _accessor.UpdateLastActivityTime(activity?.ChannelId ?? "No ChannelId", activity?.From?.Id ?? "No FromId", activity?.From?.Name ?? "No FromName", activity?.Conversation?.Id ?? "No ConversationId");
 
             await Conversation.SendAsync(activity, _rootDialogFactory);
         }
@@ -37,7 +37,7 @@ namespace SmogBot.Bot
                 await connector.Conversations.ReplyToActivityAsync(activity.CreateReply($"Cześć, {activity.MembersAdded[0].Name}!"));
                 await connector.Conversations.ReplyToActivityAsync(activity.CreateReply("Jestem botem, który pomoże Ci monitorować poziom zanieczyszczenia powietrza."));
 
-                await _accessor.EnsureUser(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
+                await _accessor.EnsureUser(activity?.ChannelId ?? "No ChannelId", activity?.From?.Id ?? "No FromId", activity?.From?.Name ?? "No FromName", activity?.Conversation?.Id ?? "No ConversationId");
 
                 await OnMessage(activity);
             }
