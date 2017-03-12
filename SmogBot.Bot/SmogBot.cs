@@ -22,7 +22,7 @@ namespace SmogBot.Bot
 
         public override async Task OnMessage(Activity activity)
         {
-            await _accessor.UpdateLastActivityTime(activity?.ChannelId ?? "No ChannelId", activity?.From?.Id ?? "No FromId", activity?.From?.Name ?? "No FromName", activity?.Conversation?.Id ?? "No ConversationId");
+            await _accessor.UpdateLastActivityTime(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
 
             await Conversation.SendAsync(activity, _rootDialogFactory);
         }
@@ -34,12 +34,18 @@ namespace SmogBot.Bot
 
             if (updateActivity.AreMembersAdded())
             {
-                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply($"Cześć, {activity.MembersAdded[0].Name}!"));
-                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply("Jestem botem, który pomoże Ci monitorować poziom zanieczyszczenia powietrza."));
+                var username = activity.MembersAdded[0].Name;
+                var greeting = username != "You" ? $"Cześć, {username}! :)" : "Cześć! :)";
 
-                await _accessor.EnsureUser(activity?.ChannelId ?? "No ChannelId", activity?.From?.Id ?? "No FromId", activity?.From?.Name ?? "No FromName", activity?.Conversation?.Id ?? "No ConversationId");
+                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply(greeting));
+                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply("Jestem botem, który pomoże Ci monitorować poziom zanieczyszczenia powietrza. 🏭"));
 
-                await OnMessage(activity);
+                if (activity.From.Name != null)
+                {
+                    await _accessor.EnsureUser(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
+
+                    await OnMessage(activity);
+                }
             }
         }
 

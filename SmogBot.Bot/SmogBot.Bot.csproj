@@ -202,8 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\smogbotweb - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\smogbotweb - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\smogbottest - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
