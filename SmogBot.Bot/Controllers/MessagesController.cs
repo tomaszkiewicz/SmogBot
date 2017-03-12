@@ -57,6 +57,8 @@ namespace SmogBot.Bot.Controllers
                 var connector = activity.CreateConnectorClient();
 
                 connector.Conversations.SendToConversation(activity.CreateReply("Controller exception: " + ex.Message + ex.StackTrace));
+
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message + ex.StackTrace);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK);
