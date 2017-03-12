@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using SmogBot.Bot.DatabaseAccessLayer;
 using SmogBot.Bot.Helpers;
-using SmogBot.Bot.Tools;
 using Tomaszkiewicz.BotFramework.Dialogs;
+using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
 namespace SmogBot.Bot.Dialogs
 {

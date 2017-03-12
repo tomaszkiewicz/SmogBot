@@ -7,8 +7,8 @@ using Microsoft.Bot.Connector;
 using SmogBot.Bot.DatabaseAccessLayer;
 using SmogBot.Bot.Helpers;
 using SmogBot.Bot.RepliesSets;
-using SmogBot.Bot.Tools;
 using Tomaszkiewicz.BotFramework.Extensions;
+using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
 namespace SmogBot.Bot.Dialogs
 {

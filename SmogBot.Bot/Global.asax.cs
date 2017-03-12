@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.Http;
@@ -28,13 +29,16 @@ namespace SmogBot.Bot
             builder.RegisterAssemblyTypes(BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray());
 
             builder.RegisterType<SmogBot>()
-                .As<Bot>();
+                .As<Tomaszkiewicz.BotFramework.Bot>();
 
             builder.RegisterType<SqlConnectionFactory>()
                 .AsSelf()
                 .WithParameter("connectionString", ConfigurationManager.ConnectionStrings["Bot"].ConnectionString);
 
             RegisterMainMenu(builder);
+
+            builder.RegisterType<NotificationsMenuItems>()
+                .As<Dictionary<string, Func<IDialogContext, ResumeAfter<object>, Task>>>();
 
             var container = builder.Build();
 
@@ -50,6 +54,8 @@ namespace SmogBot.Bot
 
             builder.RegisterType<ExceptionHandlerDialog<object>>()
                 .Named<IDialog<object>>("dialogs");
+
+            
 
             builder.RegisterType<MenuDialogDispatcher>()
                 .Named<IDialog<object>>("dialogs");

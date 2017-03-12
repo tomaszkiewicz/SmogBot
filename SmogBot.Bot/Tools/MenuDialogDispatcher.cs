@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Tomaszkiewicz.BotFramework.Extensions;
+using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
 namespace SmogBot.Bot.Tools
 {

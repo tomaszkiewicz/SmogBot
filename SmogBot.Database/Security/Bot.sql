@@ -1,5 +1,7 @@
 ﻿CREATE SCHEMA [Bot]
     AUTHORIZATION [dbo];
+
+
 GO
 
 CREATE LOGIN [Bot] WITH PASSWORD = 'invalidPassword';

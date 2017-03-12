@@ -52,10 +52,21 @@ namespace SmogBot.Bot.DatabaseAccessLayer
                 NotificationTime = notificationTime
             });
         }
-
+        
         public Task EnsureUser(string channelId, string fromId, string fromName, string conversationId)
         {
             return _database.Execute("EXEC [Bot].[EnsureUser] @channelId, @fromId, @fromName, @conversationId", new
+            {
+                ConversationId = conversationId,
+                ChannelId = channelId,
+                FromId = fromId,
+                FromName = fromName
+            });
+        }
+
+        public Task UpdateLastActivityTime(string channelId, string fromId, string fromName, string conversationId)
+        {
+            return _database.Execute("EXEC [Bot].[UpdateLastActivityTime] @channelId, @fromId, @fromName, @conversationId", new
             {
                 ConversationId = conversationId,
                 ChannelId = channelId,

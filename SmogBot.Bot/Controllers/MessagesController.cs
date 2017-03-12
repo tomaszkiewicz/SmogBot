@@ -9,9 +9,9 @@ namespace SmogBot.Bot.Controllers
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private readonly Bot _bot;
+        private readonly Tomaszkiewicz.BotFramework.Bot _bot;
 
-        public MessagesController(Bot bot)
+        public MessagesController(Tomaszkiewicz.BotFramework.Bot bot)
         {
             _bot = bot;
         }

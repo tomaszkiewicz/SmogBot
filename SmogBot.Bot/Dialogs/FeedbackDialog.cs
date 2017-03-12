@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using SmogBot.Bot.DatabaseAccessLayer;
-using SmogBot.Bot.Tools;
+using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
 namespace SmogBot.Bot.Dialogs
 {

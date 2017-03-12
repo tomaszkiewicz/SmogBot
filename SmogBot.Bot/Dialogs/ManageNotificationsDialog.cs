@@ -3,10 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using SmogBot.Bot.DatabaseAccessLayer;
-using SmogBot.Bot.Helpers;
-using SmogBot.Bot.Tools;
 using Tomaszkiewicz.BotFramework.Dialogs;
 using Tomaszkiewicz.BotFramework.Extensions;
+using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
 namespace SmogBot.Bot.Dialogs
 {
@@ -16,10 +15,9 @@ namespace SmogBot.Bot.Dialogs
         [NonSerialized]
         private readonly BotAccessor _accessor;
 
-        private string _conversationId;
-
         private const string AddNotification = "Dodaj powiadomienie";
         private const string EndConfiguration = "Zakoñcz konfigurowanie";
+        private const string DeleteConfigurationTemplate = "Usuñ powiadomienie o {0}";
 
         public ManageNotificationsDialog(BotAccessor accessor)
         {
@@ -28,8 +26,6 @@ namespace SmogBot.Bot.Dialogs
 
         public override async Task StartAsync(IDialogContext context)
         {
-            context.PrivateConversationData.TryGetValue(ConversationDataKeys.ConversationId, out _conversationId);
-
             await ShowMenu(context);
         }
 
@@ -37,9 +33,9 @@ namespace SmogBot.Bot.Dialogs
         {
             await context.SendTypingMessage();
 
-            var notifications = await _accessor.GetNotificationTimes(_conversationId);
+            var notifications = await _accessor.GetNotificationTimes(context.Activity.Conversation.Id);
 
-            var menu = notifications.Select(notification => $"Usuñ powiadomienie o {notification}").ToList();
+            var menu = notifications.Select(notification => string.Format(DeleteConfigurationTemplate, notification)).ToList();
 
             menu.Add(AddNotification);
             menu.Add(EndConfiguration);
@@ -62,16 +58,17 @@ namespace SmogBot.Bot.Dialogs
                     break;
 
                 default:
-                    var notifications = await _accessor.GetNotificationTimes(_conversationId);
+                    var notifications = await _accessor.GetNotificationTimes(context.Activity.Conversation.Id);
 
                     foreach (var notification in notifications)
                     {
-                        if (message != $"Usuñ powiadomienie o {notification}")
+                        // not so good...
+                        if (message != string.Format(DeleteConfigurationTemplate, notification))
                             continue;
 
                         await context.SendTypingMessage();
 
-                        await _accessor.DeleteNotificationTime(_conversationId, notification);
+                        await _accessor.DeleteNotificationTime(context.Activity.Conversation.Id, notification);
 
                         await context.PostAsync($"Usuniêto powiadomienie o {notification}");
 
@@ -89,8 +86,8 @@ namespace SmogBot.Bot.Dialogs
 
             await context.SendTypingMessage();
 
-            await _accessor.AddNotificationTime(_conversationId, time.ToString("HH:mm"));
-
+            await _accessor.AddNotificationTime(context.Activity.Conversation.Id, time.ToString("HH:mm"));
+            
             await context.PostAsync($"Dodano powiadomienie o {time:HH:mm}");
 
             await ShowMenu(context);

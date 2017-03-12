@@ -4,57 +4,43 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Tomaszkiewicz.BotFramework.Extensions;
+using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
 namespace SmogBot.Bot.Tools
 {
     [Serializable]
-    public class MenuActionDispatcherDialog : IDialog<object>
+    public class MenuActionDispatcherDialog : AutoDeserializeDialog<object>
     {
-        private readonly Dictionary<string, Func<IDialogContext, Task>> _menuActions = new Dictionary<string, Func<IDialogContext, Task>>();
+        [NonSerialized]
+        private readonly Dictionary<string, Func<IDialogContext, ResumeAfter<object>, Task>> _menuActions;
 
-        public void RegisterMenuItem(string label, Func<IDialogContext, Task> action)
+        public MenuActionDispatcherDialog(Dictionary<string, Func<IDialogContext, ResumeAfter<object>, Task>> menuActions)
         {
-            _menuActions[label] = action;
+            _menuActions = menuActions;
         }
 
-        public Task StartAsync(IDialogContext context)
-        {
-            context.Wait(MessageReceivedAsync);
-
-            return Task.CompletedTask;
-        }
-
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            var message = await result;
-
-            if (message.Text == null)
-                await ShowMenu(context);
-        }
-
-        protected Task ShowMenu(IDialogContext context)
+        public override async Task StartAsync(IDialogContext context)
         {
             var menu = context.MakeQuickReplies(_menuActions.Keys);
 
-            context.PostAsync(menu);
+            await context.PostAsync(menu);
 
             context.Wait(OnSelected);
-
-            return Task.CompletedTask;
         }
 
         private async Task OnSelected(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
 
-            if (_menuActions.ContainsKey(message.Text))
-            {
-                await _menuActions[message.Text](context);
-            }
+            if (!string.IsNullOrWhiteSpace(message?.Text) && _menuActions.ContainsKey(message.Text))
+                await _menuActions[message.Text](context, Resume);
             else
-            {
-                await ShowMenu(context);
-            }
+                await StartAsync(context);
+        }
+
+        private async Task Resume(IDialogContext context, IAwaitable<object> result)
+        {
+            await StartAsync(context);
         }
     }
 }

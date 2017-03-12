@@ -3,8 +3,10 @@
     [UserId] INT          NOT NULL,
     [Time]   NVARCHAR (5) NOT NULL,
     CONSTRAINT [PK_NotificationTimes] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_NotificationTimes_Users] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users] ([Id])
+    CONSTRAINT [FK_NotificationTimes_Users] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([Id])
 );
+
+
 
 
 GO

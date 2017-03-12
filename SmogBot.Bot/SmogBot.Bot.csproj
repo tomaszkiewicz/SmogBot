@@ -154,8 +154,12 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.6\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
+    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.7\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Tomaszkiewicz.BotFramework.WebApi, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tomaszkiewicz.BotFramework.WebApi.1.0.7\lib\net461\Tomaszkiewicz.BotFramework.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Tomaszkiewicz.DapperExtensions, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -172,21 +176,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="BasicProactiveEchoDialog.cs" />
+    <Compile Include="Dialogs\BasicProactiveEchoDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Bot.cs" />
     <Compile Include="DatabaseAccessLayer\BotAccessor.cs" />
     <Compile Include="DatabaseAccessLayer\Measurement.cs" />
-    <Compile Include="Tools\AutoDeserializeDialog.cs" />
-    <Compile Include="Dialogs\BasicProactiveEchoDialog.cs" />
     <Compile Include="Dialogs\FeedbackDialog.cs" />
     <Compile Include="Dialogs\HelpDialog.cs" />
+    <Compile Include="Helpers\NotificationsMenuItems.cs" />
     <Compile Include="Helpers\MainMenuItems.cs" />
     <Compile Include="Dialogs\ManageNotificationsDialog.cs" />
     <Compile Include="Dialogs\MeasurementsDialog.cs" />
     <Compile Include="Dialogs\NewManageNotificationsDialog.cs" />
     <Compile Include="Dialogs\SelectCityDialog.cs" />
-    <Compile Include="Extensions\DependencyScopeExtensions.cs" />
     <Compile Include="Helpers\ConversationDataKeys.cs" />
     <Compile Include="RepliesSets\MeasurementsRepliesSet.cs" />
     <Compile Include="SmogBot.cs" />
@@ -194,9 +195,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Message.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleDependency.cs" />
+    <Compile Include="Helpers\SampleDependency.cs" />
     <Compile Include="Tools\MenuActionDispatcherDialog.cs" />
     <Compile Include="Tools\MenuDialogDispatcher.cs" />
   </ItemGroup>

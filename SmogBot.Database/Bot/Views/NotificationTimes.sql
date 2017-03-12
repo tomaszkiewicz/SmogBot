@@ -1,4 +1,5 @@
-﻿CREATE VIEW [Bot].[NotificationTimes]
+﻿
+CREATE VIEW [Bot].[NotificationTimes]
 AS
 SELECT
     [u].[ConversationId],
@@ -6,4 +7,4 @@ SELECT
 FROM
     [dbo].[NotificationTimes] [nt]
 JOIN [dbo].[Users] [u]
-ON  [u].[Id] = [nt].[Id];
+ON  [u].[Id] = [nt].[UserId];
