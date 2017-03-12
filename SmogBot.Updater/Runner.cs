@@ -20,6 +20,11 @@ namespace SmogBot.Updater
 
             return req.CreateResponse(HttpStatusCode.Accepted);
         }
+        
+        public static Task RunTimer(TimerInfo timer, TraceWriter log)
+        {
+            return Run(log);
+        }
 #endif
 #if DEBUG
         public static async Task<HttpResponseMessage> RunHttp(HttpRequestMessage req, TextWriter log)
@@ -29,7 +34,7 @@ namespace SmogBot.Updater
             return req.CreateResponse(HttpStatusCode.Accepted);
         }
 #endif
-        
+
         public static async Task Run(TraceWriter log)
         {
             var connStr = ConfigurationManager.ConnectionStrings["Updater"].ConnectionString;
