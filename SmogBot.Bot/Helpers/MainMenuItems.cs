@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using SmogBot.Bot.Dialogs;
@@ -10,9 +10,9 @@ namespace SmogBot.Bot.Helpers
         public MainMenuItems(Func<MeasurementsDialog> measurementsDialogFactory, Func<ManageNotificationsDialog> manageNotificationsDialogFactory, Func<FeedbackDialog> feedbackDialogFactory, Func<HelpDialog> helpDialogFactory
             )
         {
-            Add("SprawdŸ przekroczenia norm", measurementsDialogFactory);
-            Add("Zarz¹dzaj notyfikacjami", manageNotificationsDialogFactory);
-            Add("Wyœlij opiniê o tym bocie", feedbackDialogFactory);
+            Add("SprawdÅº przekroczenia norm", measurementsDialogFactory);
+            Add("ZarzÄ…dzaj notyfikacjami", manageNotificationsDialogFactory);
+            Add("WyÅ›lij opiniÄ™ o tym bocie", feedbackDialogFactory);
             Add("Pomoc", helpDialogFactory);
         }
     }

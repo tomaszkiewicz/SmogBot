@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -24,10 +24,10 @@ namespace SmogBot.Bot.Dialogs
         {
             context.Call(new SearchDialog(
                 SearchFunc,
-                "Wygl¹da na to, ¿e jesteœ tutaj pierwszy raz i nie wybra³eœ jeszcze swojego miasta. Wpisz miasto, dla którego dane chcesz otrzymywaæ:",
-                "Niestety, nie mamy danych dla tego miasta, spróbuj wpisaæ jakieœ inne w okolicy:",
-                "Czy mo¿esz doprecyzowaæ, o jakie miasto Ci chodzi?",
-                "Nie uda³o siê znaleŸæ miasta."
+                "WyglÄ…da na to, Å¼e jesteÅ› tutaj pierwszy raz i nie wybraÅ‚eÅ› jeszcze swojego miasta. Wpisz miasto, dla ktÃ³rego dane chcesz otrzymywaÄ‡:",
+                "Niestety, nie mamy danych dla tego miasta, sprÃ³buj wpisaÄ‡ jakieÅ› inne w okolicy:",
+                "Czy moÅ¼esz doprecyzowaÄ‡, o jakie miasto Ci chodzi?",
+                "Nie udaÅ‚o siÄ™ znaleÅºÄ‡ miasta."
                 ), OnCitySelected);
 
             return Task.CompletedTask;
@@ -44,7 +44,7 @@ namespace SmogBot.Bot.Dialogs
 
             context.PrivateConversationData.SetValue(ConversationDataKeys.City, city);
 
-            await context.PostAsync("Ok, Twoje miasto zosta³o zapamiêtane :)\r\nW przysz³oœci automatycznie poka¿ê dane dla Twojego miasta.");
+            await context.PostAsync("Ok, Twoje miasto zostaÅ‚o zapamiÄ™tane :)\r\nW przyszÅ‚oÅ›ci automatycznie pokaÅ¼Ä™ dane dla Twojego miasta.");
 
             context.Done(city);
         }

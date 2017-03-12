@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -22,7 +22,7 @@ namespace SmogBot.Bot.Dialogs
 
         public override async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("Napisz swoj¹ opiniê, gdy skoñczysz wpisz 'koniec' w osobnej wiadomoœci.");
+            await context.PostAsync("Napisz swojÄ… opiniÄ™, gdy skoÅ„czysz wpisz 'koniec' w osobnej wiadomoÅ›ci.");
 
             context.Wait(MessageReceivedAsync);
         }
@@ -37,7 +37,7 @@ namespace SmogBot.Bot.Dialogs
 
                 if (string.IsNullOrWhiteSpace(_feedback))
                 {
-                    await context.PostAsync("Nie poda³eœ/aœ swojej opinii, no trudno :(");
+                    await context.PostAsync("Nie podaÅ‚eÅ›/aÅ› swojej opinii, no trudno :(");
 
                     context.Done("");
 
@@ -46,7 +46,7 @@ namespace SmogBot.Bot.Dialogs
 
                 await context.PostAsync($"Twoja opinia:\r\n{_feedback}");
 
-                PromptDialog.Confirm(context, SendFeedback, "Wys³aæ opiniê?");
+                PromptDialog.Confirm(context, SendFeedback, "WysÅ‚aÄ‡ opiniÄ™?");
 
                 return;
             }
@@ -65,7 +65,7 @@ namespace SmogBot.Bot.Dialogs
             {
                 await _accessor.SendFeedback(context, _feedback);
 
-                await context.PostAsync("Opinia wys³ana. Dziêkujê :)");
+                await context.PostAsync("Opinia wysÅ‚ana. DziÄ™kujÄ™ :)");
             }
 
             context.Done(_feedback);
