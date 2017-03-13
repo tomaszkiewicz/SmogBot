@@ -3,7 +3,8 @@ CREATE PROCEDURE [Bot].[EnsureUser]
     @channelId NVARCHAR(128),
     @fromId NVARCHAR(128),
     @fromName NVARCHAR(128),
-    @conversationId NVARCHAR(128)
+    @conversationId NVARCHAR(128),
+	@conversationReference NVARCHAR(1024)
 AS
 BEGIN
 	
@@ -21,14 +22,16 @@ BEGIN
                  [ChannelId],
                  [FromId],
                  [FromName],
-                 [ConversationId]
+                 [ConversationId],
+				 [ConversationReference]
 	            )
         VALUES
                 (
                  @channelId,
                  @fromId,
                  @fromName,
-                 @conversationId
+                 @conversationId,
+				 @conversationReference
 	            );
 
 END;

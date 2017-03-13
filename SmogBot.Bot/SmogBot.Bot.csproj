@@ -66,8 +66,12 @@
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Builder.3.5.0\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder, Version=3.5.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.5.5\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Builder.Autofac, Version=3.5.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.5.5\lib\net46\Microsoft.Bot.Builder.Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bot.Builder.Azure, Version=3.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -78,8 +82,8 @@
       <HintPath>..\packages\Microsoft.Bot.Builder.History.3.0.2\lib\net46\Microsoft.Bot.Builder.History.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Builder.3.5.0\lib\net46\Microsoft.Bot.Connector.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Connector, Version=3.5.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.5.5\lib\net46\Microsoft.Bot.Connector.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -154,8 +158,8 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.7\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
+    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.8\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Tomaszkiewicz.BotFramework.WebApi, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
@@ -175,6 +179,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityExtensions.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Dialogs\BasicProactiveEchoDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />

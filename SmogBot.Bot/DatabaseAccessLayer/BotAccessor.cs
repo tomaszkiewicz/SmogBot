@@ -53,25 +53,27 @@ namespace SmogBot.Bot.DatabaseAccessLayer
             });
         }
         
-        public Task EnsureUser(string channelId, string fromId, string fromName, string conversationId)
+        public Task EnsureUser(string channelId, string fromId, string fromName, string conversationId, string conversationReference)
         {
-            return _database.Execute("EXEC [Bot].[EnsureUser] @channelId, @fromId, @fromName, @conversationId", new
+            return _database.Execute("EXEC [Bot].[EnsureUser] @channelId, @fromId, @fromName, @conversationId, @conversationReference", new
             {
                 ConversationId = conversationId,
                 ChannelId = channelId,
                 FromId = fromId,
-                FromName = fromName
+                FromName = fromName,
+                ConversationReference = conversationReference
             });
         }
 
-        public Task UpdateLastActivityTime(string channelId, string fromId, string fromName, string conversationId)
+        public Task UpdateLastActivityTime(string channelId, string fromId, string fromName, string conversationId, string conversationReference)
         {
-            return _database.Execute("EXEC [Bot].[UpdateLastActivityTime] @channelId, @fromId, @fromName, @conversationId", new
+            return _database.Execute("EXEC [Bot].[UpdateLastActivityTime] @channelId, @fromId, @fromName, @conversationId, @conversationReference", new
             {
                 ConversationId = conversationId,
                 ChannelId = channelId,
                 FromId = fromId,
-                FromName = fromName
+                FromName = fromName,
+                ConversationReference = conversationReference
             });
         }
 

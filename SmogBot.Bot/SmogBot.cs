@@ -22,7 +22,7 @@ namespace SmogBot.Bot
 
         public override async Task OnMessage(Activity activity)
         {
-            await _accessor.UpdateLastActivityTime(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
+            await _accessor.UpdateLastActivityTime(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id, JsonConvert.SerializeObject(activity.GetConversationReference()));
 
             await Conversation.SendAsync(activity, _rootDialogFactory);
         }
@@ -42,7 +42,7 @@ namespace SmogBot.Bot
 
                 if (activity.From.Name != null)
                 {
-                    await _accessor.EnsureUser(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
+                    await _accessor.EnsureUser(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id, JsonConvert.SerializeObject(activity.GetConversationReference()));
 
                     await OnMessage(activity);
                 }
@@ -53,7 +53,7 @@ namespace SmogBot.Bot
         {
             var message = JsonConvert.DeserializeObject<Message>(((JObject)activity.Value).GetValue("Message").ToString());
             var messageActivity = message.ResumptionCookie.GetMessage();
-
+            
             var client = new ConnectorClient(new Uri(messageActivity.ServiceUrl));
 
             var triggerReply = messageActivity.CreateReply();
