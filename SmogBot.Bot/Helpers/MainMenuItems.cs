@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using SmogBot.Bot.Dialogs;

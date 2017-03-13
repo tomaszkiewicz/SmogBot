@@ -1,4 +1,4 @@
-﻿using Tomaszkiewicz.BotFramework.Tools;
+using Tomaszkiewicz.BotFramework.Tools;
 
 namespace SmogBot.Bot.RepliesSets
 {

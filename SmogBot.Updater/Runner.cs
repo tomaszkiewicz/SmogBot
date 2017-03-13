@@ -16,7 +16,7 @@ namespace SmogBot.Updater
             return Run(new ConsoleTextWriter(log, TraceLevel.Verbose));
         }
 #else
-    public static Task RunTimer(TimerInfo timer, TraceWriter log)
+        public static Task RunTimer(TimerInfo timer, TraceWriter log)
         {
             return Run(log);
         }
