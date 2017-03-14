@@ -187,6 +187,7 @@
     <Compile Include="DatabaseAccessLayer\Measurement.cs" />
     <Compile Include="Dialogs\FeedbackDialog.cs" />
     <Compile Include="Dialogs\HelpDialog.cs" />
+    <Compile Include="Dialogs\MainMenuDialog.cs" />
     <Compile Include="Helpers\MainMenuItems.cs" />
     <Compile Include="Dialogs\ManageNotificationsDialog.cs" />
     <Compile Include="Dialogs\MeasurementsDialog.cs" />

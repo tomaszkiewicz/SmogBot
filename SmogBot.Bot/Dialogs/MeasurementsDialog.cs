@@ -71,7 +71,7 @@ namespace SmogBot.Bot.Dialogs
                     continue;
 
                 foreach (var measurement in overNormMeasurements)
-                    sb.AppendLine($"*** {measurement.PollutantName}: {measurement.PercentNorm * 100:#####}% normy ({measurement.Value:######} {measurement.Unit})");
+                    sb.AppendLine($"{measurement.PollutantName}: {measurement.PercentNorm * 100:#####}% normy ({measurement.Value:######} {measurement.Unit})");
 
                 var heroCard = new HeroCard
                 {
