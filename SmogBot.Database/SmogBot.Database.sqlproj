@@ -103,6 +103,7 @@
     <Build Include="Bot\Stored Procedures\UpdateLastActivityTime.sql" />
     <Build Include="Notifier\Stored Procedures\GetNotifications.sql" />
     <Build Include="Security\Notifier.sql" />
+    <Build Include="Bot\Views\StationsAqi.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />

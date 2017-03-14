@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="DatabaseAccessLayer\AqiMeasurement.cs" />
     <Compile Include="Dialogs\BasicProactiveEchoDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="DatabaseAccessLayer\BotAccessor.cs" />

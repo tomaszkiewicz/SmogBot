@@ -14,6 +14,14 @@ namespace SmogBot.Bot.DatabaseAccessLayer
             _database = database;
         }
 
+        public Task<IEnumerable<AqiMeasurement>> GetAqiMeasurements(string city)
+        {
+            return _database.Query<AqiMeasurement>("SELECT * FROM [Bot].[StationsAqi] WHERE CityName = @city", new
+            {
+                City = city
+            });
+        }
+
         public Task<IEnumerable<Measurement>> GetNewestMeasurements(string city)
         {
             return _database.Query<Measurement>("SELECT * FROM [Bot].[Measurements] WHERE CityName = @city", new

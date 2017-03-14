@@ -25,7 +25,7 @@ namespace SmogBot.Bot.Dialogs
 
         [NonSerialized]
         private readonly Func<SelectCityDialog> _selectCityDialogFactory;
-        
+
         private string _city;
 
         public MeasurementsDialog(BotAccessor accessor, Func<SelectCityDialog> selectCityDialogFactory, MeasurementsRepliesSet measurementsRepliesSet)
@@ -56,6 +56,7 @@ namespace SmogBot.Bot.Dialogs
             await context.SendTypingMessage();
 
             var measurements = await _accessor.GetNewestMeasurements(_city);
+            var aqiMeasurements = (await _accessor.GetAqiMeasurements(_city)).ToArray();
 
             // TODO check if measurements are current (from last X hours)
 
@@ -66,7 +67,7 @@ namespace SmogBot.Bot.Dialogs
             foreach (var stationMeasurements in measurementsByStation)
             {
                 var sb = new StringBuilder();
-                
+
                 var overNormMeasurements = stationMeasurements.Where(x => x.PercentNorm > 1).OrderByDescending(x => x.PercentNorm).ToArray();
 
                 if (!overNormMeasurements.Any())
@@ -75,6 +76,13 @@ namespace SmogBot.Bot.Dialogs
                 foreach (var measurement in overNormMeasurements)
                     sb.AppendLine($"{measurement.PollutantName}: {measurement.PercentNorm * 100:#####}% normy ({measurement.Value:######} {measurement.Unit})");
 
+                var stationAqi = aqiMeasurements.FirstOrDefault(a => a.StationName == stationMeasurements.Key);
+
+                var aqi = 0;
+
+                if (stationAqi != null)
+                    aqi = stationAqi.Value;
+
                 var heroCard = new HeroCard
                 {
                     Title = stationMeasurements.Key,
@@ -82,7 +90,7 @@ namespace SmogBot.Bot.Dialogs
                     Text = sb.ToString(),
                     Images = new List<CardImage>()
                     {
-                        new CardImage(GetBaseUrl() + "Images/" + GetImageByAqi(1))
+                        new CardImage(GetBaseUrl() + "Images/" + GetImageByAqi(aqi))
                     },
                 };
 
@@ -124,18 +132,19 @@ namespace SmogBot.Bot.Dialogs
 
             switch (aqi)
             {
+                case 2:
                 case 3:
-                case 4:
                     return "aqi51to100.jpg";
 
+                case 4:                    
                 case 5:
-                case 6:
                     return "aqi101to150.jpg";
 
+                case 6:
                 case 7:
-                case 8:
                     return "aqi151to200.jpg";
 
+                case 8:
                 case 9:
                     return "aqi201to300.jpg";
 
