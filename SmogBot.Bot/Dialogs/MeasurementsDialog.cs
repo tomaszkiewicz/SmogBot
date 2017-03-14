@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using SmogBot.Bot.DatabaseAccessLayer;
@@ -64,7 +66,7 @@ namespace SmogBot.Bot.Dialogs
             foreach (var stationMeasurements in measurementsByStation)
             {
                 var sb = new StringBuilder();
-
+                
                 var overNormMeasurements = stationMeasurements.Where(x => x.PercentNorm > 1).OrderByDescending(x => x.PercentNorm).ToArray();
 
                 if (!overNormMeasurements.Any())
@@ -78,10 +80,10 @@ namespace SmogBot.Bot.Dialogs
                     Title = stationMeasurements.Key,
                     Subtitle = $"Odczyt z godziny {stationMeasurements.Max(x => x.Time):HH:mm}",
                     Text = sb.ToString(),
-                    //Images = new List<CardImage>()
-                    //{
-                    //    new CardImage($"http://powietrze.gios.gov.pl/pjp/current/station_picture/{measurement.StationCode}")
-                    //},
+                    Images = new List<CardImage>()
+                    {
+                        new CardImage(GetBaseUrl() + "Images/" + GetImageByAqi(1))
+                    },
                 };
 
                 reply.Attachments.Add(heroCard.ToAttachment());
@@ -101,6 +103,48 @@ namespace SmogBot.Bot.Dialogs
             await context.PostAsync(reply);
 
             context.Done(_city);
+        }
+
+        public string GetBaseUrl()
+        {
+            var request = HttpContext.Current.Request;
+            var appUrl = HttpRuntime.AppDomainAppVirtualPath;
+
+            if (appUrl != "/")
+                appUrl = "/" + appUrl;
+
+            var baseUrl = $"{request.Url.Scheme}://{request.Url.Authority}{appUrl}";
+
+            return baseUrl;
+        }
+
+        public static string GetImageByAqi(int aqi)
+        {
+            // verify mappings
+
+            switch (aqi)
+            {
+                case 3:
+                case 4:
+                    return "aqi51to100.jpg";
+
+                case 5:
+                case 6:
+                    return "aqi101to150.jpg";
+
+                case 7:
+                case 8:
+                    return "aqi151to200.jpg";
+
+                case 9:
+                    return "aqi201to300.jpg";
+
+                case 10:
+                    return "aqi301to500.jpg";
+
+                default:
+                    return "aqi0to50.jpg";
+            }
         }
     }
 }

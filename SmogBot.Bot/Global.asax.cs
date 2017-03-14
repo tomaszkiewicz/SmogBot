@@ -9,7 +9,6 @@ using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Microsoft.Bot.Builder.Dialogs;
-using SmogBot.Bot.Dialogs;
 using SmogBot.Bot.Helpers;
 using SmogBot.Bot.Tools;
 using Tomaszkiewicz.BotFramework.Dialogs;
@@ -52,7 +51,7 @@ namespace SmogBot.Bot
             builder.RegisterType<ExceptionHandlerDialog<object>>()
                 .Named<IDialog<object>>("dialogs");
             
-            builder.RegisterType<MainMenuDialog>()
+            builder.RegisterType<MenuDialogDispatcher>()
                 .Named<IDialog<object>>("dialogs");
 
             builder.RegisterDecorator<IDialog<object>>(x => x, "dialogs");
