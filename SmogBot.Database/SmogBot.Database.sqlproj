@@ -104,6 +104,10 @@
     <Build Include="Notifier\Stored Procedures\GetNotifications.sql" />
     <Build Include="Security\Notifier.sql" />
     <Build Include="Bot\Views\StationsAqi.sql" />
+    <Build Include="dbo\Tables\UsersPreferences.sql" />
+    <Build Include="Bot\Views\UsersPreferences.sql" />
+    <Build Include="Bot\Stored Procedures\SetUserPreferences.sql" />
+    <Build Include="Bot\Stored Procedures\SetUserCity.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />

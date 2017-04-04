@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using Tomaszkiewicz.DapperExtensions;
 
 namespace SmogBot.Bot.DatabaseAccessLayer
@@ -60,7 +61,7 @@ namespace SmogBot.Bot.DatabaseAccessLayer
                 NotificationTime = notificationTime
             });
         }
-        
+
         public Task EnsureUser(string channelId, string fromId, string fromName, string conversationId, string conversationReference)
         {
             return _database.Execute("EXEC [Bot].[EnsureUser] @channelId, @fromId, @fromName, @conversationId, @conversationReference", new
@@ -73,6 +74,35 @@ namespace SmogBot.Bot.DatabaseAccessLayer
             });
         }
 
+        public Task SetUserPreferences(string channelId, string fromId, string fromName, string conversationId, string cityName)
+        {
+            return _database.Execute("EXEC [Bot].[SetUserPreferences] @channelId, @fromId, @fromName, @conversationId, @cityName", new
+            {
+                ConversationId = conversationId,
+                ChannelId = channelId,
+                FromId = fromId,
+                FromName = fromName,
+                CityName = cityName
+            });
+        }
+
+        public Task SetUserCity(IActivity activity, string city)
+        {
+            return SetUserCity(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id, city);
+        }
+
+        public Task SetUserCity(string channelId, string fromId, string fromName, string conversationId, string cityName)
+        {
+            return _database.Execute("EXEC [Bot].[SetUserCity] @channelId, @fromId, @fromName, @conversationId, @cityName", new
+            {
+                ConversationId = conversationId,
+                ChannelId = channelId,
+                FromId = fromId,
+                FromName = fromName,
+                CityName = cityName
+            });
+        }
+
         public Task UpdateLastActivityTime(string channelId, string fromId, string fromName, string conversationId, string conversationReference)
         {
             return _database.Execute("EXEC [Bot].[UpdateLastActivityTime] @channelId, @fromId, @fromName, @conversationId, @conversationReference", new
@@ -82,6 +112,29 @@ namespace SmogBot.Bot.DatabaseAccessLayer
                 FromId = fromId,
                 FromName = fromName,
                 ConversationReference = conversationReference
+            });
+        }
+
+        public async Task<string> GetUserCity(IActivity activity)
+        {
+            var preferences = await GetUserPreferences(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id);
+
+            return preferences?.CityName;
+        }
+
+        public Task<UserPreferences> GetUserPreferences(string channelId, string fromId, string fromName, string conversationId)
+        {
+            return _database.Single<UserPreferences>("SELECT * " +
+                                     "FROM [Bot].[UsersPreferences] " +
+                                     "WHERE ChannelId = @channelId " +
+                                     "AND FromId = @fromId " +
+                                     "AND FromName = @fromName " +
+                                     "AND ConversationId = @conversationId", new
+            {
+                ConversationId = conversationId,
+                ChannelId = channelId,
+                FromId = fromId,
+                FromName = fromName
             });
         }
 

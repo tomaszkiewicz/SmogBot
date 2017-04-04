@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using SmogBot.Bot.DatabaseAccessLayer;
-using SmogBot.Bot.Helpers;
 using Tomaszkiewicz.BotFramework.Dialogs;
 using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
@@ -38,11 +37,11 @@ namespace SmogBot.Bot.Dialogs
             return _accessor.SearchCity(query);
         }
 
-        private static async Task OnCitySelected(IDialogContext context, IAwaitable<string> result)
+        private async Task OnCitySelected(IDialogContext context, IAwaitable<string> result)
         {
             var city = await result;
-
-            context.PrivateConversationData.SetValue(ConversationDataKeys.City, city);
+            
+            await _accessor.SetUserCity(context.Activity, city);
 
             await context.PostAsync("Ok, Twoje miasto zostało zapamiętane :)\r\nW przyszłości automatycznie pokażę dane dla Twojego miasta.");
 

@@ -7,7 +7,6 @@ using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using SmogBot.Bot.DatabaseAccessLayer;
-using SmogBot.Bot.Helpers;
 using SmogBot.Bot.RepliesSets;
 using Tomaszkiewicz.BotFramework.Extensions;
 using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
@@ -37,7 +36,9 @@ namespace SmogBot.Bot.Dialogs
 
         public override async Task StartAsync(IDialogContext context)
         {
-            if (!context.PrivateConversationData.TryGetValue(ConversationDataKeys.City, out _city))
+            _city = await _accessor.GetUserCity(context.Activity);
+            
+            if (string.IsNullOrWhiteSpace(_city))
                 context.Call(_selectCityDialogFactory(), OnCitySelected);
             else
                 await ShowMeasurements(context);
