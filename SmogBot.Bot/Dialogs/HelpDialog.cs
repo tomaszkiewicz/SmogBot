@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
@@ -7,9 +8,11 @@ namespace SmogBot.Bot.Dialogs
     [Serializable]
     public class HelpDialog : IDialog
     {
-        public Task StartAsync(IDialogContext context)
+        public async Task StartAsync(IDialogContext context)
         {
-            throw new NotImplementedException();
+            await context.PostAsync($"Wersja bota: {Assembly.GetExecutingAssembly().GetName().Version}");
+
+            context.Done(new object());
         }
     }
 }
