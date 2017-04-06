@@ -12,6 +12,10 @@
 
 
 
+
+
+
+
 GO
 
 CREATE LOGIN [Bot] WITH PASSWORD = 'invalidPassword';

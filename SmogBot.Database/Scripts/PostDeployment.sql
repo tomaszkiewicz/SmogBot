@@ -11,3 +11,4 @@ Post-Deployment Script Template
 */
 
 :r ..\Fixtures\dbo.Pollutants.sql
+:r ..\Fixtures\dbo.AqiLevels.sql

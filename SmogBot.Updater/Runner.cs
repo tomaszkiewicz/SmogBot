@@ -37,8 +37,6 @@ namespace SmogBot.Updater
 
                 await accessor.EnsureStation(stationData.CityName, stationData.StationName);
 
-                await accessor.UpdateAqiMeasurement(stationData.CityName, stationData.StationName, stationData.Time, stationData.AirQualityIndex);
-
                 foreach (var measurement in stationData.Measurements)
                 {
                     log.Verbose($"\t{measurement.Key}\t{measurement.Value}");

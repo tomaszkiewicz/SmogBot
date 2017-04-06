@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using SmogBot.Bot.DatabaseAccessLayer;
 using SmogBot.Bot.RepliesSets;
+using SmogBot.Common;
 using Tomaszkiewicz.BotFramework.Extensions;
 using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
@@ -57,46 +56,17 @@ namespace SmogBot.Bot.Dialogs
             await context.SendTypingMessage();
 
             var measurements = await _accessor.GetNewestMeasurements(_city);
-            var aqiMeasurements = (await _accessor.GetAqiMeasurements(_city)).ToArray();
-
+            
             // TODO check if measurements are current (from last X hours)
 
             var reply = context.MakeCarousel();
 
             var measurementsByStation = measurements.GroupBy(x => x.StationName).OrderByDescending(x => x.Max(y => y.PercentNorm));
+            
+            var cards = MeasurementsCardBuilder.GetMeasurementsCards(measurementsByStation, GetBaseUrl());
 
-            foreach (var stationMeasurements in measurementsByStation)
-            {
-                var sb = new StringBuilder();
-
-                var overNormMeasurements = stationMeasurements.Where(x => x.PercentNorm > 1).OrderByDescending(x => x.PercentNorm).ToArray();
-
-                if (!overNormMeasurements.Any())
-                    continue;
-
-                foreach (var measurement in overNormMeasurements)
-                    sb.AppendLine($"{measurement.PollutantName}: {measurement.PercentNorm * 100:#####}% normy ({measurement.Value:######} {measurement.Unit})");
-
-                var stationAqi = aqiMeasurements.FirstOrDefault(a => a.StationName == stationMeasurements.Key);
-
-                var aqi = 0;
-
-                if (stationAqi != null)
-                    aqi = stationAqi.Value;
-
-                var heroCard = new HeroCard
-                {
-                    Title = stationMeasurements.Key,
-                    Subtitle = $"Odczyt z godziny {stationMeasurements.Max(x => x.Time):HH:mm}",
-                    Text = sb.ToString(),
-                    Images = new List<CardImage>()
-                    {
-                        new CardImage(GetBaseUrl() + "Images/" + GetImageByAqi(aqi))
-                    },
-                };
-
-                reply.Attachments.Add(heroCard.ToAttachment());
-            }
+            foreach (var card in cards)
+                reply.Attachments.Add(card.ToAttachment());
 
             if (!reply.Attachments.Any())
             {
@@ -113,7 +83,7 @@ namespace SmogBot.Bot.Dialogs
 
             context.Done(_city);
         }
-
+        
         public string GetBaseUrl()
         {
             var request = HttpContext.Current.Request;
@@ -125,36 +95,6 @@ namespace SmogBot.Bot.Dialogs
             var baseUrl = $"{request.Url.Scheme}://{request.Url.Authority}{appUrl}";
 
             return baseUrl;
-        }
-
-        public static string GetImageByAqi(int aqi)
-        {
-            // verify mappings
-
-            switch (aqi)
-            {
-                case 2:
-                case 3:
-                    return "aqi51to100.jpg";
-
-                case 4:                    
-                case 5:
-                    return "aqi101to150.jpg";
-
-                case 6:
-                case 7:
-                    return "aqi151to200.jpg";
-
-                case 8:
-                case 9:
-                    return "aqi201to300.jpg";
-
-                case 10:
-                    return "aqi301to500.jpg";
-
-                default:
-                    return "aqi0to50.jpg";
-            }
         }
     }
 }

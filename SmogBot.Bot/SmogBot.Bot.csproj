@@ -174,22 +174,22 @@
   <ItemGroup>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
-    <Content Include="Images\aqi0to50.jpg">
+    <Content Include="Images\aqi0.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\aqi101to150.jpg">
+    <Content Include="Images\aqi1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\aqi151to200.jpg">
+    <Content Include="Images\aqi2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\aqi201to300.jpg">
+    <Content Include="Images\aqi3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\aqi301to500.jpg">
+    <Content Include="Images\aqi4.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\aqi51to100.jpg">
+    <Content Include="Images\aqi5.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.config">
@@ -203,7 +203,6 @@
     <Compile Include="Dialogs\BasicProactiveEchoDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="DatabaseAccessLayer\BotAccessor.cs" />
-    <Compile Include="DatabaseAccessLayer\Measurement.cs" />
     <Compile Include="Dialogs\FeedbackDialog.cs" />
     <Compile Include="Dialogs\HelpDialog.cs" />
     <Compile Include="Helpers\MainMenuItems.cs" />
@@ -230,6 +229,12 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmogBot.Common\SmogBot.Common.csproj">
+      <Project>{0AB6CFB4-0882-40BA-8914-AAE43C2144FB}</Project>
+      <Name>SmogBot.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

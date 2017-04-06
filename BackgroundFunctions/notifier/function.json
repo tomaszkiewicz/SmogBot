@@ -1,7 +1,7 @@
 ﻿{
   "scriptFile": "bin\\SmogBot.Notifier.dll",
   "entryPoint": "SmogBot.Notifier.Runner.RunTimer",
-  "disabled": true,
+  "disabled": false,
   "bindings": [
     {
       "name": "timer",

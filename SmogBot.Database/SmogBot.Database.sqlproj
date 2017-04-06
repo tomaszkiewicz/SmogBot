@@ -71,11 +71,12 @@
     <Folder Include="Updater\Stored Procedures\" />
     <Folder Include="Notifier\" />
     <Folder Include="Notifier\Stored Procedures\" />
+    <Folder Include="Common\" />
+    <Folder Include="Common\Views\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Stations.sql" />
     <Build Include="dbo\Tables\Measurements.sql" />
-    <Build Include="Bot\Views\Measurements.sql" />
     <Build Include="Security\Bot.sql" />
     <Build Include="dbo\Tables\Cities.sql" />
     <Build Include="dbo\Functions\GetCityIdByName.sql" />
@@ -94,7 +95,6 @@
     <Build Include="Bot\Stored Procedures\EnsureUser.sql" />
     <Build Include="Bot\Stored Procedures\DeleteNotificationTime.sql" />
     <Build Include="Bot\Stored Procedures\AddNotificationTime.sql" />
-    <Build Include="Updater\Stored Procedures\UpdateAqiMeasurement.sql" />
     <Build Include="Updater\Stored Procedures\EnsureStation.sql" />
     <Build Include="Updater\Stored Procedures\UpdateMeasurement.sql" />
     <Build Include="Security\Updater.sql" />
@@ -103,14 +103,17 @@
     <Build Include="Bot\Stored Procedures\UpdateLastActivityTime.sql" />
     <Build Include="Notifier\Stored Procedures\GetNotifications.sql" />
     <Build Include="Security\Notifier.sql" />
-    <Build Include="Bot\Views\StationsAqi.sql" />
     <Build Include="dbo\Tables\UsersPreferences.sql" />
     <Build Include="Bot\Views\UsersPreferences.sql" />
     <Build Include="Bot\Stored Procedures\SetUserPreferences.sql" />
     <Build Include="Bot\Stored Procedures\SetUserCity.sql" />
+    <Build Include="Common\Views\Measurements.sql" />
+    <Build Include="Security\Common.sql" />
+    <Build Include="dbo\Tables\AqiLevels.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />
+    <None Include="Fixtures\dbo.AqiLevels.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />

@@ -1,6 +1,8 @@
 ﻿CREATE SCHEMA [Updater]
     AUTHORIZATION [dbo];
 
+
+
 GO
 
 CREATE LOGIN [Updater] WITH PASSWORD = 'invalidPassword';

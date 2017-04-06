@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SmogBot.Bot.DatabaseAccessLayer
+namespace SmogBot.Common.DatabaseAccessLayer
 {
     public class Measurement
     {
@@ -12,6 +12,7 @@ namespace SmogBot.Bot.DatabaseAccessLayer
         public decimal Norm { get; set; }
         public string Unit { get; set; }
         public decimal PercentNorm { get; set; }
+        public int AqiValue { get; set; }
 
         public override string ToString()
         {

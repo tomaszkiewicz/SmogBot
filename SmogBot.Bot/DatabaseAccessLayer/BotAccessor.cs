@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using SmogBot.Common.DatabaseAccessLayer;
 using Tomaszkiewicz.DapperExtensions;
 
 namespace SmogBot.Bot.DatabaseAccessLayer
@@ -14,18 +15,10 @@ namespace SmogBot.Bot.DatabaseAccessLayer
         {
             _database = database;
         }
-
-        public Task<IEnumerable<AqiMeasurement>> GetAqiMeasurements(string city)
-        {
-            return _database.Query<AqiMeasurement>("SELECT * FROM [Bot].[StationsAqi] WHERE CityName = @city", new
-            {
-                City = city
-            });
-        }
-
+        
         public Task<IEnumerable<Measurement>> GetNewestMeasurements(string city)
         {
-            return _database.Query<Measurement>("SELECT * FROM [Bot].[Measurements] WHERE CityName = @city", new
+            return _database.Query<Measurement>("SELECT * FROM [Common].[Measurements] WHERE CityName = @city", new
             {
                 City = city
             });

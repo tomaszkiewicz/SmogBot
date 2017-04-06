@@ -24,18 +24,7 @@ namespace SmogBot.Updater
                 Value = value
             });
         }
-
-        public Task UpdateAqiMeasurement(string cityName, string stationName, DateTime time, int aqiValue)
-        {
-            return _database.Execute("EXEC [Updater].[UpdateAqiMeasurement] @cityName, @stationName, @time, @value", new
-            {
-                CityName = cityName,
-                StationName = stationName,
-                Time = time,
-                Value = aqiValue
-            });
-        }
-
+        
         public Task EnsureStation(string cityName, string stationName)
         {
             return _database.Execute("EXEC [Updater].[EnsureStation] @cityName, @stationName", new
