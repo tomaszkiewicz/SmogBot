@@ -49,7 +49,7 @@ namespace SmogBot.Bot
             }
         }
 
-        public override async Task OnTrigger(ITriggerActivity activity)
+        public override async Task OnEvent(IEventActivity activity)
         {
             var message = JsonConvert.DeserializeObject<Message>(((JObject)activity.Value).GetValue("Message").ToString());
             var messageActivity = message.ResumptionCookie.GetMessage();

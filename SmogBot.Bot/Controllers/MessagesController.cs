@@ -22,34 +22,7 @@ namespace SmogBot.Bot.Controllers
         {
             try
             {
-                switch (activity.GetActivityType())
-                {
-                    case ActivityTypes.Message:
-                        await _bot.OnMessage(activity);
-                        break;
-
-                    case ActivityTypes.ConversationUpdate:
-                        await _bot.OnConversationUpdate(activity);
-                        break;
-
-                    case ActivityTypes.Trigger:
-                        await _bot.OnConversationUpdate(activity);
-                        break;
-
-                    case ActivityTypes.ContactRelationUpdate:
-                        await _bot.OnContactRelationUpdate(activity);
-                        break;
-                        
-                    case ActivityTypes.DeleteUserData:
-                        await _bot.OnDeleteUserData(activity);
-                        break;
-
-                    //case ActivityTypes.Typing:
-                    //case ActivityTypes.Ping:
-                    default:
-                        await _bot.OnUnknownActivity(activity);
-                        break;
-                }
+                await _bot.DispatchActivity(activity);
             }
             catch (Exception ex)
             {
