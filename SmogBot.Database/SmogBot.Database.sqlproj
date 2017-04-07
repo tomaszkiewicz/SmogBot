@@ -73,6 +73,8 @@
     <Folder Include="Notifier\Stored Procedures\" />
     <Folder Include="Common\" />
     <Folder Include="Common\Views\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="Notifier\Views\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Stations.sql" />
@@ -110,6 +112,13 @@
     <Build Include="Common\Views\Measurements.sql" />
     <Build Include="Security\Common.sql" />
     <Build Include="dbo\Tables\AqiLevels.sql" />
+    <Build Include="dbo\Tables\LastWarnings.sql" />
+    <Build Include="dbo\Views\LastMeasurements.sql" />
+    <Build Include="Notifier\Views\ActiveWarnings.sql" />
+    <Build Include="dbo\Views\StationsAqi.sql" />
+    <Build Include="Notifier\Stored Procedures\UpdateWarnings.sql" />
+    <Build Include="Bot\Stored Procedures\EnableWarnings.sql" />
+    <Build Include="Bot\Stored Procedures\DisableWarnings.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />

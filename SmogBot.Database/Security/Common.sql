@@ -4,6 +4,8 @@
 
 
 
+
+
 GO
 GRANT SELECT
     ON SCHEMA::[Common] TO [Notifier];
