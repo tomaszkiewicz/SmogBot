@@ -32,26 +32,37 @@ namespace SmogBot.Notifier
             var connStr = ConfigurationManager.ConnectionStrings["Notifier"].ConnectionString;
             var baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
 
-            var nowCest = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Central European Standard Time");
             var accessor = new NotifierAccessor(connStr);
+            var lastCheck = timer.ScheduleStatus.Last;
 
             var sw = Stopwatch.StartNew();
-            
-            var usersToNotify = (await accessor.GetUsersToNotify(timer.ScheduleStatus.Last, nowCest)).ToArray();
 
-            var cities = usersToNotify.Select(x => x.CityName).Distinct().ToArray();
+            var nowCest = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Central European Standard Time");
+
+            // get data from db
+
+            var usersToNotify = (await accessor.GetUsersToNotify(lastCheck, nowCest));
+            var usersToWarn = (await accessor.GetActiveWarnings());
+
+            var users = usersToNotify.Concat(usersToWarn).Distinct().ToArray();
+
+            // get cities and measurements
+            
+            var cities = users.Select(x => x.CityName).Distinct().ToArray();
             var measurements = (await accessor.GetNewestMeasurements(cities)).ToArray();
 
-            foreach (var user in usersToNotify)
+            // process notifications and warnings
+
+            foreach (var user in users)
             {
                 var conversationReference = JsonConvert.DeserializeObject<ConversationReference>(user.ConversationReference);
-                
+
                 var measurementsByStation = measurements.Where(x => x.CityName == user.CityName)
-                                                        .GroupBy(x => x.StationName)
-                                                        .OrderByDescending(x => x.Max(y => y.PercentNorm));
+                    .GroupBy(x => x.StationName)
+                    .OrderByDescending(x => x.Max(y => y.PercentNorm));
 
                 var cards = MeasurementsCardBuilder.GetMeasurementsCards(measurementsByStation, baseUrl).ToArray();
-                
+
                 if (!cards.Any())
                     continue;
 
@@ -62,15 +73,15 @@ namespace SmogBot.Notifier
 
                 foreach (var card in cards)
                     reply.Attachments.Add(card.ToAttachment());
-                    
+
                 var connector = reply.CreateConnectorClient();
 
                 await connector.Conversations.SendToConversationAsync(reply);
             }
-
+            
             sw.Stop();
 
-            log.Info($"Notification check completed in {sw.Elapsed.TotalMilliseconds} ms");
+            log.Info($"Notifications and warnings check completed in {sw.Elapsed.TotalMilliseconds} ms");
         }
     }
 }

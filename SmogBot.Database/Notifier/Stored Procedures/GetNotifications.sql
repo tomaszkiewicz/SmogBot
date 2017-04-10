@@ -7,10 +7,6 @@ BEGIN
     SET NOCOUNT ON;
 	
     SELECT
-        u.[ChannelId],
-        u.[FromId],
-        u.[FromName],
-        u.[ConversationId],
         u.[ConversationReference],
         c.[Name] AS CityName,
         MAX(src.[Time]) AS Time
