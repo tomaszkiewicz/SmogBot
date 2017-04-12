@@ -15,7 +15,7 @@ namespace SmogBot.Bot.DatabaseAccessLayer
         {
             _database = database;
         }
-        
+
         public Task<IEnumerable<Measurement>> GetNewestMeasurements(string city)
         {
             return _database.Query<Measurement>("SELECT * FROM [Common].[Measurements] WHERE CityName = @city", new
@@ -123,12 +123,12 @@ namespace SmogBot.Bot.DatabaseAccessLayer
                                      "AND FromId = @fromId " +
                                      "AND FromName = @fromName " +
                                      "AND ConversationId = @conversationId", new
-            {
-                ConversationId = conversationId,
-                ChannelId = channelId,
-                FromId = fromId,
-                FromName = fromName
-            });
+                                     {
+                                         ConversationId = conversationId,
+                                         ChannelId = channelId,
+                                         FromId = fromId,
+                                         FromName = fromName
+                                     });
         }
 
         public Task<IEnumerable<string>> SearchCity(string cityName)
@@ -144,6 +144,32 @@ namespace SmogBot.Bot.DatabaseAccessLayer
             // TODO implement saving feedback
 
             return Task.CompletedTask;
+        }
+
+        public Task<bool> GetWarningsStatus(IActivity activity)
+        {
+            return _database.ExecuteScalar<bool>("SELECT WarningsEnabled " +
+                                                 "FROM [Bot].[WarningsStatus] " +
+                                                 "WHERE [ConversationId] = @conversationId", new
+            {
+                ConversationId = activity.Conversation.Id
+            });
+        }
+
+        public Task EnableWarnings(IActivity activity)
+        {
+            return _database.Execute("EXEC [Bot].[EnableWarnings] @conversationId", new
+            {
+                ConversationId = activity.Conversation.Id
+            });
+        }
+
+        public Task DisableWarnings(IActivity activity)
+        {
+            return _database.Execute("EXEC [Bot].[DisableWarnings] @conversationId", new
+            {
+                ConversationId = activity.Conversation.Id
+            });
         }
     }
 }

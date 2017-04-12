@@ -11,7 +11,7 @@ namespace SmogBot.Bot.Helpers
             )
         {
             Add("Sprawdź przekroczenia norm", measurementsDialogFactory);
-            Add("Zarządzaj notyfikacjami", manageNotificationsDialogFactory);
+            Add("Powiadomienia i ostrzeżenia", manageNotificationsDialogFactory);
             Add("Wyślij opinię o tym bocie", feedbackDialogFactory);
             Add("Pomoc", helpDialogFactory);
         }
