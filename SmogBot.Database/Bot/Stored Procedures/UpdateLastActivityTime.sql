@@ -13,7 +13,8 @@ BEGIN
     UPDATE
         [dbo].[Users]
     SET
-        [LastActivityTime] = GETUTCDATE()
+        [LastActivityTime] = GETUTCDATE(),
+		[ConversationReference] = @conversationReference
     WHERE
         [ChannelId] = @channelId
         AND [FromId] = @fromId
