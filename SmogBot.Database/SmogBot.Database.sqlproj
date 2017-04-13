@@ -119,6 +119,7 @@
     <Build Include="Notifier\Stored Procedures\UpdateWarnings.sql" />
     <Build Include="Bot\Stored Procedures\EnableWarnings.sql" />
     <Build Include="Bot\Stored Procedures\DisableWarnings.sql" />
+    <Build Include="Bot\Views\WarningsStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />
