@@ -35,7 +35,7 @@ namespace SmogBot.Notifier
 
         public Task<IEnumerable<NotificationContext>> GetActiveWarnings()
         {
-            return _database.Query<NotificationContext>("SELECT DISTINCT [ConversationReference], [CityName] FROM [Notifier].[ActiveWarnings]");
+            return _database.Query<NotificationContext>("SELECT DISTINCT [ConversationReference], [CityName], [UserId] FROM [Notifier].[ActiveWarnings]");
         }
 
         public Task UpdateWarnings(int userId)

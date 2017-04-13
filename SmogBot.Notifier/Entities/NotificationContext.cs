@@ -5,6 +5,7 @@ namespace SmogBot.Notifier.Entities
     {
         public string ConversationReference { get; set; }
         public string CityName { get; set; }
+        public int UserId { get; set; }
 
         protected bool Equals(NotificationContext other)
         {

@@ -42,12 +42,12 @@ namespace SmogBot.Notifier
             // get data from db
 
             var usersToNotify = (await accessor.GetUsersToNotify(lastCheck, nowCest));
-            var usersToWarn = (await accessor.GetActiveWarnings());
+            var usersToWarn = (await accessor.GetActiveWarnings()).ToArray();
 
             var users = usersToNotify.Concat(usersToWarn).Distinct().ToArray();
 
             // get cities and measurements
-            
+
             var cities = users.Select(x => x.CityName).Distinct().ToArray();
             var measurements = (await accessor.GetNewestMeasurements(cities)).ToArray();
 
@@ -55,30 +55,44 @@ namespace SmogBot.Notifier
 
             foreach (var user in users)
             {
-                var conversationReference = JsonConvert.DeserializeObject<ConversationReference>(user.ConversationReference);
+                log.Verbose($"Notifying user with UserId = {user.UserId}.");
 
-                var measurementsByStation = measurements.Where(x => x.CityName == user.CityName)
-                    .GroupBy(x => x.StationName)
-                    .OrderByDescending(x => x.Max(y => y.PercentNorm));
+                try
+                {
+                    var conversationReference = JsonConvert.DeserializeObject<ConversationReference>(user.ConversationReference);
 
-                var cards = MeasurementsCardBuilder.GetMeasurementsCards(measurementsByStation, baseUrl).ToArray();
+                    var measurementsByStation = measurements.Where(x => x.CityName == user.CityName)
+                        .GroupBy(x => x.StationName)
+                        .OrderByDescending(x => x.Max(y => y.PercentNorm));
 
-                if (!cards.Any())
-                    continue;
+                    var cards = MeasurementsCardBuilder.GetMeasurementsCards(measurementsByStation, baseUrl).ToArray();
 
-                var reply = conversationReference.GetPostToUserMessage();
+                    if (!cards.Any())
+                        continue;
 
-                reply.AttachmentLayout = "carousel";
-                reply.Attachments = new List<Attachment>();
+                    var reply = conversationReference.GetPostToUserMessage();
 
-                foreach (var card in cards)
-                    reply.Attachments.Add(card.ToAttachment());
+                    reply.AttachmentLayout = "carousel";
+                    reply.Attachments = new List<Attachment>();
 
-                var connector = reply.CreateConnectorClient();
+                    foreach (var card in cards)
+                        reply.Attachments.Add(card.ToAttachment());
 
-                await connector.Conversations.SendToConversationAsync(reply);
+                    var connector = reply.CreateConnectorClient();
+
+                    await connector.Conversations.SendToConversationAsync(reply);
+
+                    log.Verbose($"User with UserId = {user.UserId} notified.");
+
+                    if (usersToWarn.Contains(user))
+                        await accessor.UpdateWarnings(user.UserId);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex.Message, ex);
+                }
             }
-            
+
             sw.Stop();
 
             log.Info($"Notifications and warnings check completed in {sw.Elapsed.TotalMilliseconds} ms");

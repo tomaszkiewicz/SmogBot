@@ -1,8 +1,11 @@
 ﻿
 
 
+
+
 CREATE VIEW [Notifier].[ActiveWarnings] AS
 SELECT
+	[u].[Id] AS [UserId],
 	[u].[ConversationReference],
 	[ci].[Name] AS [CityName],
 	[lw].[StationId],
@@ -12,7 +15,6 @@ FROM
     [dbo].[LastWarnings] [lw]
 JOIN [dbo].[StationsAqi] [sa]
 ON  [sa].[StationId] = [lw].[StationId]
-    AND [lw].[LastAqiValue] != [sa].[AqiValue]
 JOIN [dbo].[Stations] [st]
 ON  [st].[Id] = [lw].[StationId]
 JOIN [dbo].[Cities] [ci]
