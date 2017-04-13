@@ -78,7 +78,9 @@ namespace SmogBot.Notifier
                     foreach (var card in cards)
                         reply.Attachments.Add(card.ToAttachment());
 
-                    var connector = reply.CreateConnectorClient();
+                    var connector = new ConnectorClient(new Uri(reply.ServiceUrl), ConfigurationManager.AppSettings["MicrosoftAppId"], ConfigurationManager.AppSettings["MicrosoftAppPassword"]);
+
+                    //var connector = reply.CreateConnectorClient();
 
                     await connector.Conversations.SendToConversationAsync(reply);
 
