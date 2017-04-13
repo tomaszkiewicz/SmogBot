@@ -16,3 +16,10 @@
 
 
 
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Users]
+    ON [dbo].[Users]([ConversationId] ASC);
+

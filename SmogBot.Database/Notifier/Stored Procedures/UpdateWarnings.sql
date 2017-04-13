@@ -26,13 +26,13 @@ BEGIN
         AND dst.[UserId] = @userId
     WHEN MATCHED THEN
         UPDATE SET
-               [dst].[LastAqiLevel] = [src].[AqiValue]
+               [dst].[LastAqiValue] = [src].[AqiValue]
     WHEN NOT MATCHED THEN
         INSERT
                (
                  [UserId],
                  [StationId],
-                 [LastAqiLevel]
+                 [LastAqiValue]
                )
         VALUES (
                  @userId,

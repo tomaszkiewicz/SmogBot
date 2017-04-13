@@ -10,6 +10,8 @@
 
 
 
+
+
 GO
 
 CREATE LOGIN [Notifier] WITH PASSWORD = 'invalidPassword';
