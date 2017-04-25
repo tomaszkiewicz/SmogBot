@@ -141,9 +141,11 @@ namespace SmogBot.Bot.DatabaseAccessLayer
 
         public Task SendFeedback(IDialogContext context, string feedback)
         {
-            // TODO implement saving feedback
-
-            return Task.CompletedTask;
+            return _database.Execute("EXEC [Bot].[AddFeedback] @conversationId, @message", new
+            {
+                ConversationId = context.Activity.Conversation.Id,
+                Message = feedback
+            });
         }
 
         public Task<bool> GetWarningsStatus(IActivity activity)

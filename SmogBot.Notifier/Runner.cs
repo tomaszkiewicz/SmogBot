@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Bot.Connector;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
 using SmogBot.Common;
-using Tomaszkiewicz.BotFramework.Extensions;
 
 namespace SmogBot.Notifier
 {
@@ -74,14 +75,29 @@ namespace SmogBot.Notifier
                 foreach (var card in cards)
                     reply.Attachments.Add(card.ToAttachment());
 
-                var connector = reply.CreateConnectorClient();
+                var message = JsonConvert.SerializeObject(reply);
 
-                await connector.Conversations.SendToConversationAsync(reply);
+                await AddMessageToQueueAsync(message);
             }
             
             sw.Stop();
 
             log.Info($"Notifications and warnings check completed in {sw.Elapsed.TotalMilliseconds} ms");
+        }
+
+        public static async Task AddMessageToQueueAsync(string message)
+        {
+            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["AzureWebJobsStorage"]);
+
+            var queueClient = storageAccount.CreateCloudQueueClient();
+
+            var queue = queueClient.GetQueueReference("bot-queue");
+
+            await queue.CreateIfNotExistsAsync();
+
+            var queuemessage = new CloudQueueMessage(message);
+
+            await queue.AddMessageAsync(queuemessage);
         }
     }
 }

@@ -51,16 +51,11 @@ namespace SmogBot.Bot
 
         public override async Task OnEvent(IEventActivity activity)
         {
-            var message = JsonConvert.DeserializeObject<Message>(((JObject)activity.Value).GetValue("Message").ToString());
-            var messageActivity = message.ResumptionCookie.GetMessage();
-            
-            var client = new ConnectorClient(new Uri(messageActivity.ServiceUrl));
+            var reply = JsonConvert.DeserializeObject<Activity>(((JObject)activity.Value).GetValue("Message").ToString());
 
-            var triggerReply = messageActivity.CreateReply();
+            var connector = reply.CreateConnectorClient();
 
-            triggerReply.Text = $"This is coming back from the trigger! {message.Text}";
-
-            await client.Conversations.ReplyToActivityAsync(triggerReply);
+            await connector.Conversations.SendToConversationAsync(reply);
         }
     }
 }
