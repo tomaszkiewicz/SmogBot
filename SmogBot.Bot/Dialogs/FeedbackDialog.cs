@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -13,8 +14,6 @@ namespace SmogBot.Bot.Dialogs
         [NonSerialized]
         private readonly BotAccessor _accessor;
 
-        private string _feedback = "";
-
         public FeedbackDialog(BotAccessor accessor)
         {
             _accessor = accessor;
@@ -22,7 +21,7 @@ namespace SmogBot.Bot.Dialogs
 
         public override async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("Napisz swoją opinię, gdy skończysz wpisz 'koniec' w osobnej wiadomości.");
+            await context.PostAsync("Napisz proszę swoją opinię o mnie :)");
 
             context.Wait(MessageReceivedAsync);
         }
@@ -31,44 +30,23 @@ namespace SmogBot.Bot.Dialogs
         {
             var message = await result;
 
-            if (message != null && message.Text.ToLower() == "koniec")
+            var feedback = message.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(feedback))
             {
-                _feedback = _feedback.Trim();
+                await context.PostAsync("Nie podałeś/aś swojej opinii, no trudno :(");
 
-                if (string.IsNullOrWhiteSpace(_feedback))
-                {
-                    await context.PostAsync("Nie podałeś/aś swojej opinii, no trudno :(");
-
-                    context.Done("");
-
-                    return;
-                }
-
-                await context.PostAsync($"Twoja opinia:\r\n{_feedback}");
-
-                PromptDialog.Confirm(context, SendFeedback, "Wysłać opinię?");
+                context.Done("");
 
                 return;
             }
 
-            if (message?.Text != null)
-                _feedback += message.Text + "\r\n";
+            await _accessor.SendFeedback(context, feedback, Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
-            context.Wait(MessageReceivedAsync);
-        }
+            await context.PostAsync("Opinia wysłana. Dziękuję :)");
 
-        private async Task SendFeedback(IDialogContext context, IAwaitable<bool> result)
-        {
-            var send = await result;
+            context.Done(feedback);
 
-            if (send)
-            {
-                await _accessor.SendFeedback(context, _feedback);
-
-                await context.PostAsync("Opinia wysłana. Dziękuję :)");
-            }
-
-            context.Done(_feedback);
         }
     }
 }

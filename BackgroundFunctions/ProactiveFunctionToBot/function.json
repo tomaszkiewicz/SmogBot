@@ -12,7 +12,7 @@
       "type": "bot",
       "name": "message",
       "direction": "out",
-      "botId": "testbot"
+      "botId": "smogbot"
     },
     {
       "type": "http",

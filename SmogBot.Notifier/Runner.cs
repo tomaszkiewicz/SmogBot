@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Bot.Connector;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
 using SmogBot.Common;
-using Tomaszkiewicz.BotFramework.Extensions;
 
 namespace SmogBot.Notifier
 {
@@ -57,47 +58,48 @@ namespace SmogBot.Notifier
             {
                 log.Verbose($"Notifying user with UserId = {user.UserId}.");
 
-                try
-                {
-                    var conversationReference = JsonConvert.DeserializeObject<ConversationReference>(user.ConversationReference);
+                var conversationReference = JsonConvert.DeserializeObject<ConversationReference>(user.ConversationReference);
 
-                    var measurementsByStation = measurements.Where(x => x.CityName == user.CityName)
-                        .GroupBy(x => x.StationName)
-                        .OrderByDescending(x => x.Max(y => y.PercentNorm));
+                var measurementsByStation = measurements.Where(x => x.CityName == user.CityName)
+                    .GroupBy(x => x.StationName)
+                    .OrderByDescending(x => x.Max(y => y.PercentNorm));
 
-                    var cards = MeasurementsCardBuilder.GetMeasurementsCards(measurementsByStation, baseUrl).ToArray();
+                var cards = MeasurementsCardBuilder.GetMeasurementsCards(measurementsByStation, baseUrl).ToArray();
 
-                    if (!cards.Any())
-                        continue;
+                if (!cards.Any())
+                    continue;
 
-                    var reply = conversationReference.GetPostToUserMessage();
+                var reply = conversationReference.GetPostToUserMessage();
 
-                    reply.AttachmentLayout = "carousel";
-                    reply.Attachments = new List<Attachment>();
+                reply.AttachmentLayout = "carousel";
+                reply.Attachments = new List<Attachment>();
 
-                    foreach (var card in cards)
-                        reply.Attachments.Add(card.ToAttachment());
+                foreach (var card in cards)
+                    reply.Attachments.Add(card.ToAttachment());
 
-                    var connector = new ConnectorClient(new Uri(reply.ServiceUrl), ConfigurationManager.AppSettings["MicrosoftAppId"], ConfigurationManager.AppSettings["MicrosoftAppPassword"]);
+                var message = JsonConvert.SerializeObject(reply);
 
-                    //var connector = reply.CreateConnectorClient();
-
-                    await connector.Conversations.SendToConversationAsync(reply);
-
-                    log.Verbose($"User with UserId = {user.UserId} notified.");
-
-                    if (usersToWarn.Contains(user))
-                        await accessor.UpdateWarnings(user.UserId);
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex.Message, ex);
-                }
+                await AddMessageToQueueAsync(message);
             }
 
             sw.Stop();
 
             log.Info($"Notifications and warnings check completed in {sw.Elapsed.TotalMilliseconds} ms");
+        }
+
+        public static async Task AddMessageToQueueAsync(string message)
+        {
+            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["AzureWebJobsStorage"]);
+
+            var queueClient = storageAccount.CreateCloudQueueClient();
+
+            var queue = queueClient.GetQueueReference("bot-queue");
+
+            await queue.CreateIfNotExistsAsync();
+
+            var queuemessage = new CloudQueueMessage(message);
+
+            await queue.AddMessageAsync(queuemessage);
         }
     }
 }
