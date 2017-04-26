@@ -76,10 +76,12 @@ namespace SmogBot.Notifier
 
                 foreach (var card in cards)
                     reply.Attachments.Add(card.ToAttachment());
-
+                
                 var message = JsonConvert.SerializeObject(reply);
-
+                
                 await AddMessageToQueueAsync(message);
+
+                await accessor.UpdateWarnings(user.UserId);
             }
 
             sw.Stop();
