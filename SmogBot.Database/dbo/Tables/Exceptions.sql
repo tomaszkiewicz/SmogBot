@@ -3,7 +3,9 @@
     [CreateTime] DATETIME       CONSTRAINT [DF_Exceptions_CreateTime] DEFAULT (getutcdate()) NOT NULL,
     [Message]    NVARCHAR (MAX) NOT NULL,
     [StackTrace] NVARCHAR (MAX) NOT NULL,
-    [Activity]   NVARCHAR (MAX) NULL,
+    [Activity]   NVARCHAR (MAX) NOT NULL,
     CONSTRAINT [PK_Exceptions] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
