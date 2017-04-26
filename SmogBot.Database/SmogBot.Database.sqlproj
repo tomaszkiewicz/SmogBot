@@ -122,6 +122,8 @@
     <Build Include="Bot\Views\WarningsStatus.sql" />
     <Build Include="dbo\Tables\Feedback.sql" />
     <Build Include="Bot\Stored Procedures\AddFeedback.sql" />
+    <Build Include="dbo\Tables\Exceptions.sql" />
+    <Build Include="Bot\Stored Procedures\ReportException.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\dbo.Pollutants.sql" />

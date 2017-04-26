@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 using SmogBot.Common.DatabaseAccessLayer;
 using Tomaszkiewicz.DapperExtensions;
 
@@ -14,6 +16,16 @@ namespace SmogBot.Bot.DatabaseAccessLayer
         public BotAccessor(SqlConnectionFactory database)
         {
             _database = database;
+        }
+
+        public Task ReportException(Exception ex, Activity activity)
+        {
+            return _database.Execute("EXEC [Bot].[ReportException] @message, @stackTrade, @activity", new
+            {
+                Message = ex.Message,
+                StackTrace = ex.StackTrace,
+                Activity = JsonConvert.SerializeObject(activity)
+            });
         }
 
         public Task<IEnumerable<Measurement>> GetNewestMeasurements(string city)
