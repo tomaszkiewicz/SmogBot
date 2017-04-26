@@ -35,14 +35,15 @@ namespace SmogBot.Notifier
 
             var accessor = new NotifierAccessor(connStr);
             var lastCheck = timer.ScheduleStatus.Last;
-
+            var lastCheckCest = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(lastCheck, "Central European Standard Time");
+            
             var sw = Stopwatch.StartNew();
 
             var nowCest = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Central European Standard Time");
-
+            
             // get data from db
 
-            var usersToNotify = (await accessor.GetUsersToNotify(lastCheck, nowCest));
+            var usersToNotify = (await accessor.GetUsersToNotify(lastCheckCest, nowCest));
             var usersToWarn = (await accessor.GetActiveWarnings()).ToArray();
 
             var users = usersToNotify.Concat(usersToWarn).Distinct().ToArray();
