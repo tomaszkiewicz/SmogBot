@@ -42,10 +42,12 @@ namespace SmogBot.Notifier
 
             // get data from db
 
-            var usersToNotify = (await accessor.GetUsersToNotify(lastCheckCest, nowCest));
+            var usersToNotify = (await accessor.GetUsersToNotify(lastCheckCest, nowCest)).ToArray();
             var usersToWarn = (await accessor.GetActiveWarnings()).ToArray();
 
             var users = usersToNotify.Concat(usersToWarn).Distinct().ToArray();
+
+            log.Info($"Found {users.Length} users to notify.");
 
             // get cities and measurements
 
@@ -56,7 +58,7 @@ namespace SmogBot.Notifier
 
             foreach (var user in users)
             {
-                log.Verbose($"Notifying user with UserId = {user.UserId}.");
+                log.Info($"Notifying user with UserId = {user.UserId}.");
 
                 var conversationReference = JsonConvert.DeserializeObject<ConversationReference>(user.ConversationReference);
 
@@ -66,20 +68,25 @@ namespace SmogBot.Notifier
 
                 var cards = MeasurementsCardBuilder.GetMeasurementsCards(measurementsByStation, baseUrl).ToArray();
 
-                if (!cards.Any())
-                    continue;
-
                 var reply = conversationReference.GetPostToUserMessage();
 
-                reply.AttachmentLayout = "carousel";
-                reply.Attachments = new List<Attachment>();
+                if (cards.Any())
+                {
+                    reply.AttachmentLayout = "carousel";
+                    reply.Attachments = new List<Attachment>();
 
-                foreach (var card in cards)
-                    reply.Attachments.Add(card.ToAttachment());
-                
-                var message = JsonConvert.SerializeObject(reply);
-                
-                await AddMessageToQueueAsync(message);
+                    foreach (var card in cards)
+                        reply.Attachments.Add(card.ToAttachment());
+                }
+                else
+                {
+                    reply.Text = "Powietrze znów jest czyste - żadne normy nie są obecnie przekroczone :)";
+                }
+
+                if (!usersToWarn.Contains(user) && !cards.Any()) // only send info about clean air when user has warnings enabled
+                    continue;
+
+                await AddMessageToQueueAsync(JsonConvert.SerializeObject(reply));
 
                 await accessor.UpdateWarnings(user.UserId);
             }
@@ -99,9 +106,9 @@ namespace SmogBot.Notifier
 
             await queue.CreateIfNotExistsAsync();
 
-            var queuemessage = new CloudQueueMessage(message);
+            var queueMessage = new CloudQueueMessage(message);
 
-            await queue.AddMessageAsync(queuemessage);
+            await queue.AddMessageAsync(queueMessage);
         }
     }
 }
