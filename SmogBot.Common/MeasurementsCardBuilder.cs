@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Bot.Connector;
@@ -23,11 +24,11 @@ namespace SmogBot.Common
                     sb.AppendLine($"{measurement.PollutantName}: {measurement.PercentNorm * 100:#####}% normy ({measurement.Value:######} {measurement.Unit})");
 
                 var stationAqi = stationMeasurements.Max(x => x.AqiValue);
-
+                var time = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(stationMeasurements.Max(x => x.Time), "Central European Standard Time");
                 var heroCard = new HeroCard
                 {
                     Title = stationMeasurements.Key,
-                    Subtitle = $"Odczyt z godziny {stationMeasurements.Max(x => x.Time):HH:mm}",
+                    Subtitle = $"Odczyt z godziny {time:HH:mm}",
                     Text = sb.ToString(),
                     Images = new List<CardImage>()
                     {
