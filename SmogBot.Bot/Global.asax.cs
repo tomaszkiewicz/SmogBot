@@ -52,7 +52,8 @@ namespace SmogBot.Bot
                 .Named<IDialog<object>>("dialogs");
             
             builder.RegisterType<MenuDialogDispatcher>()
-                .Named<IDialog<object>>("dialogs");
+                .Named<IDialog<object>>("dialogs")
+                .WithParameter("promptText", "Co chcesz zrobić?");
 
             builder.RegisterDecorator<IDialog<object>>(x => x, "dialogs");
         }
