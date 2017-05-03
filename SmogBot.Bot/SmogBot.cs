@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
@@ -22,7 +23,7 @@ namespace SmogBot.Bot
 
         public override async Task OnMessage(Activity activity)
         {
-            await _accessor.UpdateLastActivityTime(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id, JsonConvert.SerializeObject(activity.GetConversationReference()));
+            await _accessor.UpdateLastActivityTime(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id, JsonConvert.SerializeObject(activity.ToConversationReference()));
 
             await Conversation.SendAsync(activity, _rootDialogFactory);
         }
@@ -42,7 +43,7 @@ namespace SmogBot.Bot
 
                 if (activity.From.Name != null)
                 {
-                    await _accessor.EnsureUser(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id, JsonConvert.SerializeObject(activity.GetConversationReference()));
+                    await _accessor.EnsureUser(activity.ChannelId, activity.From.Id, activity.From.Name, activity.Conversation.Id, JsonConvert.SerializeObject(activity.ToConversationReference()));
 
                     await OnMessage(activity);
                 }
