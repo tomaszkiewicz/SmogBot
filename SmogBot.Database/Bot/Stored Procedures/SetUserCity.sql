@@ -15,7 +15,7 @@ BEGIN
     UPDATE
         [dbo].[UsersPreferences]
     SET
-        [CityId] = [CityId]
+        [CityId] = @cityId
     WHERE
         [UserId] = @userId;
 

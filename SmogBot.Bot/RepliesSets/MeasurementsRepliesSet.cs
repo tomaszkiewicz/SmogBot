@@ -14,7 +14,8 @@ namespace SmogBot.Bot.RepliesSets
             {
                 "Bieżące przekroczenia norm w mieście {0}",
                 "Stan w mieście {0}, już sprawdzam :)",
-                "{0}, stan powietrza? Daj mi chwilę :)"
+                "{0}, stan powietrza? Daj mi chwilę :)",
+                "Sprawdzam, daj mi kilka sekund :)"
             });
 
             provider.AddReplies(LimitsNotExceededTitle, new[]
