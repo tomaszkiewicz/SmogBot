@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json.Linq;
 using Tomaszkiewicz.BotFramework.Extensions;
 using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
@@ -21,7 +23,7 @@ namespace SmogBot.Bot.Tools
             _menuFactories = menuItems;
             _promptText = promptText;
         }
-        
+
         public void RegisterMenuItem(string label, Func<IDialog<object>> dialogFactory)
         {
             _menuFactories[label] = dialogFactory;
@@ -34,11 +36,18 @@ namespace SmogBot.Bot.Tools
             return Task.CompletedTask;
         }
 
-        private void ShowMenu(IDialogContext context)
+        private async Task ShowMenu(IDialogContext context)
         {
-            var menu = context.MakeQuickReplies(_menuFactories.Keys, _promptText);
+            try
+            {
+                var menu = context.MakeQuickReplies(_menuFactories.Keys, _promptText);
 
-            context.PostAsync(menu);
+                await context.PostAsync(menu);
+            }
+            catch (Exception ex)
+            {
+                await context.PostAsync(ex.Message);
+            }
 
             context.Wait(OnSelected);
         }
@@ -54,7 +63,7 @@ namespace SmogBot.Bot.Tools
                 context.Call(dialog, Resume);
             }
             else
-                ShowMenu(context);
+                await ShowMenu(context);
         }
 
         private async Task Resume(IDialogContext context, IAwaitable<object> result)
@@ -66,7 +75,7 @@ namespace SmogBot.Bot.Tools
             }
             finally
             {
-                ShowMenu(context);
+                await ShowMenu(context);
             }
         }
     }

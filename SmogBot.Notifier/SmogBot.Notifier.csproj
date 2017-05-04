@@ -138,8 +138,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.13\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
+    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.14\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Tomaszkiewicz.DapperExtensions, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">

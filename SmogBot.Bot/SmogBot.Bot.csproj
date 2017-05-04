@@ -158,12 +158,12 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.13\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
+    <Reference Include="Tomaszkiewicz.BotFramework, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tomaszkiewicz.BotFramework.1.0.14\lib\net461\Tomaszkiewicz.BotFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Tomaszkiewicz.BotFramework.WebApi, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tomaszkiewicz.BotFramework.WebApi.1.0.13\lib\net461\Tomaszkiewicz.BotFramework.WebApi.dll</HintPath>
+    <Reference Include="Tomaszkiewicz.BotFramework.WebApi, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tomaszkiewicz.BotFramework.WebApi.1.0.14\lib\net461\Tomaszkiewicz.BotFramework.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Tomaszkiewicz.DapperExtensions, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -221,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\smogbot - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\smogbottest - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

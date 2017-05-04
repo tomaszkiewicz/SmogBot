@@ -10,9 +10,9 @@ namespace SmogBot.Bot.Helpers
         public MainMenuItems(Func<MeasurementsDialog> measurementsDialogFactory, Func<ManageNotificationsDialog> manageNotificationsDialogFactory, Func<FeedbackDialog> feedbackDialogFactory, Func<HelpDialog> helpDialogFactory
             )
         {
-            Add("Sprawdź przekroczenia norm", measurementsDialogFactory);
-            Add("Powiadomienia i ostrzeżenia", manageNotificationsDialogFactory);
-            Add("Wyślij opinię o tym bocie", feedbackDialogFactory);
+            Add("Stan powietrza", measurementsDialogFactory);
+            Add("Powiadomienia", manageNotificationsDialogFactory);
+            Add("Wyślij opinię", feedbackDialogFactory);
             Add("Pomoc", helpDialogFactory);
         }
     }
