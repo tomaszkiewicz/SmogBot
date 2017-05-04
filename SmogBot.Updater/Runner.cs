@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs.Host;
 namespace SmogBot.Updater
 {
     public class Runner
-    { 
+    {
 #if DEBUG
         public static Task RunTimer(TimerInfo timer, TextWriter log)
         {
@@ -23,6 +23,9 @@ namespace SmogBot.Updater
 #endif
         public static async Task Run(TraceWriter log)
         {
+            if (!ValidateConfig(log))
+                return;
+
             var connStr = ConfigurationManager.ConnectionStrings["Updater"].ConnectionString;
 
             var sw = Stopwatch.StartNew();
@@ -48,6 +51,19 @@ namespace SmogBot.Updater
             sw.Stop();
 
             log.Info($"Download completed in {sw.Elapsed.TotalMilliseconds} ms");
+        }
+
+        private static bool ValidateConfig(TraceWriter log)
+        {
+            var valid = true;
+
+            if (ConfigurationManager.ConnectionStrings["Updater"] == null)
+            {
+                log.Error("No connection string definied with key: Updater");
+                valid = false;
+            }
+
+            return valid;
         }
     }
 }

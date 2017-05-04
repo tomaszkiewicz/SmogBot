@@ -30,6 +30,9 @@ namespace SmogBot.Notifier
 #endif
         public static async Task Run(TimerInfo timer, TraceWriter log)
         {
+            if (!ValidateConfig(log))
+                return;
+
             var connStr = ConfigurationManager.ConnectionStrings["Notifier"].ConnectionString;
             var baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
 
@@ -94,6 +97,31 @@ namespace SmogBot.Notifier
             sw.Stop();
 
             log.Info($"Notifications and warnings check completed in {sw.Elapsed.TotalMilliseconds} ms");
+        }
+
+        private static bool ValidateConfig(TraceWriter log)
+        {
+            var valid = true;
+
+            if (ConfigurationManager.ConnectionStrings["Notifier"] == null)
+            {
+                log.Error("No connection string definied with key: Notifier");
+                valid = false;
+            }
+
+            if (!ConfigurationManager.AppSettings.AllKeys.Contains("AzureWebJobsStorage"))
+            {
+                log.Error("No app setting with key: AzureWebJobsStorage");
+                valid = false;
+            }
+
+            if (!ConfigurationManager.AppSettings.AllKeys.Contains("BaseUrl"))
+            {
+                log.Error("No app setting with key: BaseUrl");
+                valid = false;
+            }
+
+            return valid;
         }
 
         public static async Task AddMessageToQueueAsync(string message)
