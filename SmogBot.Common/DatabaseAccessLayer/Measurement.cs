@@ -13,6 +13,7 @@ namespace SmogBot.Common.DatabaseAccessLayer
         public string Unit { get; set; }
         public decimal PercentNorm { get; set; }
         public int AqiValue { get; set; }
+        public int StationId { get; set; }
 
         public override string ToString()
         {

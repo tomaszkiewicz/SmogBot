@@ -1,11 +1,13 @@
 ﻿
 
 
+
 CREATE VIEW [Common].[Measurements]
 AS
 SELECT
     [c].[Name] AS CityName,
     [s].[Name] AS StationName,
+	[s].[Id] AS StationId,
     [m].[Time],
     [m].[PollutantName],
     [m].[Value],

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using SmogBot.Bot.DatabaseAccessLayer;
 using Tomaszkiewicz.BotFramework.Dialogs;
 using Tomaszkiewicz.BotFramework.Extensions;
@@ -23,7 +24,7 @@ namespace SmogBot.Bot.Dialogs
         private const string EndConfiguration = "Menu główne";
         private const string EnableWarnings = "Włącz ostrzeżenia";
         private const string DisableWarnings = "Wyłącz ostrzeżenia";
-        private const string DeleteConfigurationTemplate = "Usuń powiadomienie o {0}";
+        private const string DeleteConfigurationTemplate = "{0} - nie powiadamiaj";
 
         public ManageNotificationsDialog(BotAccessor accessor, Func<SelectCityDialog> selectCityDialogFactory)
         {
@@ -66,14 +67,16 @@ namespace SmogBot.Bot.Dialogs
 
             // show menu
 
-            PromptDialog.Choice(context, OnOptionSelected, menu, "", "", 1);
+            await context.PostAsync(context.MakeQuickReplies(menu, "Co chcesz zrobić?"));
+
+            context.Wait(OnOptionSelected);
         }
 
-        private async Task OnOptionSelected(IDialogContext context, IAwaitable<string> result)
+        private async Task OnOptionSelected(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
 
-            switch (message)
+            switch (message.Text)
             {
                 case EndConfiguration:
                     context.Done(new object());
@@ -92,7 +95,7 @@ namespace SmogBot.Bot.Dialogs
                     break;
 
                 default:
-                    await DeleteNotification(context, message);
+                    await DeleteNotification(context, message.Text);
                     break;
             }
         }
@@ -124,7 +127,7 @@ namespace SmogBot.Bot.Dialogs
             foreach (var notification in notifications)
             {
                 // ugly...
-                if (message != string.Format(DeleteConfigurationTemplate, notification))
+                if (message.Substring(0, 10) != string.Format(DeleteConfigurationTemplate, notification).Substring(0, 10))
                     continue;
 
                 await context.SendTypingMessage();

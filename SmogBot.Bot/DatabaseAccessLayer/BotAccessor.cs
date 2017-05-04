@@ -36,6 +36,14 @@ namespace SmogBot.Bot.DatabaseAccessLayer
             });
         }
 
+        public Task<IEnumerable<Measurement>> GetNewestMeasurements(int stationId)
+        {
+            return _database.Query<Measurement>("SELECT * FROM [Common].[Measurements] WHERE StationId = @stationId", new
+            {
+                StationId = stationId
+            });
+        }
+
         public Task<IEnumerable<string>> GetCities()
         {
             return _database.Query<string>("SELECT Name FROM [Bot].[Cities]");
@@ -166,9 +174,9 @@ namespace SmogBot.Bot.DatabaseAccessLayer
             return _database.ExecuteScalar<bool>("SELECT WarningsEnabled " +
                                                  "FROM [Bot].[WarningsStatus] " +
                                                  "WHERE [ConversationId] = @conversationId", new
-            {
-                ConversationId = activity.Conversation.Id
-            });
+                                                 {
+                                                     ConversationId = activity.Conversation.Id
+                                                 });
         }
 
         public Task EnableWarnings(IActivity activity)

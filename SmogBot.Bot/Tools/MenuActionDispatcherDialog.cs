@@ -8,6 +8,7 @@ using Tomaszkiewicz.BotFramework.WebApi.Dialogs;
 
 namespace SmogBot.Bot.Tools
 {
+    
     [Serializable]
     public class MenuActionDispatcherDialog : AutoDeserializeDialog<object>
     {
@@ -21,7 +22,7 @@ namespace SmogBot.Bot.Tools
 
         public override async Task StartAsync(IDialogContext context)
         {
-            var menu = context.MakeQuickReplies(_menuActions.Keys);
+            var menu = context.MakeQuickReplies(_menuActions.Keys, "Co chcesz zrobiæ?");
 
             await context.PostAsync(menu);
 
