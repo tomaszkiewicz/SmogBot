@@ -3,15 +3,15 @@
   <Profiles />
   <Settings>
     <Setting Name="AzureWebJobsStorage" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">DefaultEndpointsProtocol=https;AccountName=smogbottest;AccountKey=+iOFk6Gl+otFOlWl6F2xvgmOnYA06L1LMLp3lbkBhHN0kVPxXxM28KOmuEsFlqt88AtUcrOxT0WHp8RgDRXjSA==</Value>
     </Setting>
     <Setting Name="ConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString /&gt;
+  &lt;ConnectionString&gt;Data Source=tcp:smogbot.database.windows.net,1433;Initial Catalog=SmogBotTest;Persist Security Info=False;User ID=luktom;Password=s3curity123!;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Data Source=tcp:smogbot.database.windows.net,1433;Initial Catalog=SmogBotTest;Persist Security Info=False;User ID=luktom;Password=s3curity123!;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -25,7 +25,8 @@ namespace SmogBot.MessageSender.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DefaultEndpointsProtocol=https;AccountName=smogbottest;AccountKey=+iOFk6Gl+otFOlW" +
+            "l6F2xvgmOnYA06L1LMLp3lbkBhHN0kVPxXxM28KOmuEsFlqt88AtUcrOxT0WHp8RgDRXjSA==")]
         public string AzureWebJobsStorage {
             get {
                 return ((string)(this["AzureWebJobsStorage"]));
@@ -35,6 +36,9 @@ namespace SmogBot.MessageSender.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=tcp:smogbot.database.windows.net,1433;Initial Catalog=SmogBotTest;Per" +
+            "sist Security Info=False;User ID=luktom;Password=s3curity123!;MultipleActiveResu" +
+            "ltSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));
