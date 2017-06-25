@@ -35,10 +35,7 @@ namespace SmogBot.Bot
 
             if (updateActivity.AreMembersAdded())
             {
-                var username = activity.MembersAdded[0].Name;
-                var greeting = username != "You" ? $"Cześć, {username}! :)" : "Cześć! :)";
-
-                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply(greeting));
+                await connector.Conversations.ReplyToActivityAsync(activity.CreateReply("Cześć! :)"));
                 await connector.Conversations.ReplyToActivityAsync(activity.CreateReply("Jestem botem, który pomoże Ci monitorować poziom zanieczyszczenia powietrza. 🏭"));
 
                 if (activity.From.Name != null)
